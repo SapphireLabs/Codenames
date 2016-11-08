@@ -23,16 +23,22 @@
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "knex": "^0.12.6",
+    "material-ui": "^0.16.1",
     "morgan": "^1.7.0",
     "pg": "^6.1.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
+    "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.6.0",
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.1.0",
     "webpack": "^1.13.2",
     "webpack-dev-middleware": "^1.8.4"
+  },
+  "devDependencies": {
+    "css-loader": "^0.25.0",
+    "style-loader": "^0.13.1"
   }
 }

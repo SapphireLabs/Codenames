@@ -10,16 +10,17 @@ module.exports = {
     publicPath: '/'
   },
   module: {
-    loaders: [
-      {
-        test: /\.js?$/,
-        exclude: /node_modules/,
-        loader: 'babel'
-      }
-    ]
+    loaders: [{
+      test: /\.jsx?$/,
+      exclude: /node_modules/,
+      loader: 'babel'
+    }, {
+      test: /\.css$/,
+      loader: 'style!css' // add css loader
+    }]
   },
   resolve: {
-    extensions: ['', '.js', '.json']
+    extensions: ['', '.js', '.json', '.jsx']
   },
   devServer: {
     historyApiFallback: true

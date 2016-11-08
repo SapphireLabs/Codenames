@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+
+import App from './App';
+import './main.css';
 
 ReactDOM.render(
-  <div>
-    Codenames
-  </div>,
+  <App />,
   document.getElementById('root')
 );
