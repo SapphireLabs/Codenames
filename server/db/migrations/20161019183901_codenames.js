@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
       table.increments('id').primary();
       table.string('accessCode');
       table.string('status');
+      table.string('socketId');
       table.timestamps();
     }),
     knex.schema.createTable('players', function(table) {
@@ -11,11 +12,16 @@ exports.up = function(knex, Promise) {
       table.integer('gameId').references('id').inTable('games');
       table.string('name');
       table.string('status');
+      table.string('team');
+      table.string('role');
       table.timestamps();
     })
   ])
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTable('codenames'); 
+  return Promise.all([
+    knex.schema.dropTable('players'),
+    knex.schema.dropTable('games')
+  ]);
 };
