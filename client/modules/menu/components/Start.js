@@ -8,7 +8,7 @@ export default class Start extends React.PureComponent {
     return (
       <div>
         <Link to="/create">
-          <RaisedButton label="Create Game" primary={true} />
+          <RaisedButton label="New Game" primary={true} />
         </Link>
         <Link to="/join">
           <RaisedButton label="Join Game" primary={true} />
