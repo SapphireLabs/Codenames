@@ -1,9 +1,19 @@
 const knex = require('../db/knex');
 
 module.exports = {
-  getGameByAccessCode
+  getAll,
+  getGameById,
+  create
 }
 
-function getGameByAccessCode(code) {
-  return knex('games').where('accessCode', code);
+function getAll() {
+  return knex('games');
+}
+
+function getGameById(id) {
+  return knex('games').where('id', id);
+}
+
+function create(game) {
+  return knex('games').insert(game).returning('id');
 }
