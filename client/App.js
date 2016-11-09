@@ -4,7 +4,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-import StartMenu from './startMenu';
+import Menu from './modules/menu';
 
 injectTapEventPlugin();
 
@@ -13,8 +13,10 @@ export default class App extends React.Component {
     return (
       <MuiThemeProvider>
         <Router history={browserHistory}>
-          <Route path="/">
-            <IndexRoute component={StartMenu} />
+          <Route path="/" component={Menu.components.Menu}>
+            <IndexRoute component={Menu.components.Start} />
+            <Route path="create" component={Menu.components.Create} />
+            <Route path="join" component={Menu.components.Join} />
           </Route>
         </Router>
       </MuiThemeProvider>

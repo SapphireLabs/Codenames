@@ -3,7 +3,7 @@ var path = require('path');
 module.exports = {
   // sourcemaps without slowing down rebunding
   devtool: 'eval-source-map',
-  entry: path.join(__dirname, 'client/main.js'),
+  entry: path.join(__dirname, 'client/index.js'),
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
