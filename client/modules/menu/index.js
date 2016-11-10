@@ -1,4 +1,5 @@
 import * as components from './components';
+import reducer from './reducer';
 
 
-export default { components };
+export default { components, reducer };
