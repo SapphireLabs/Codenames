@@ -1,6 +1,9 @@
 module.exports = function(io) {
   io.on('connection', (socket) => {
-    console.log('client connected');
+    socket.on('new room', (accessCode) => {
+      socket.join(accessCode);
+      console.log('server socket joined: ', accessCode);
+    });
 
   });
 }

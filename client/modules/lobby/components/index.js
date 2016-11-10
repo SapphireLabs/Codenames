@@ -7,10 +7,13 @@ import * as actions from '../actions';
 const socket = io();
 
 class LobbyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.accessCode = this.props.params.accessCode;
+  }
   componentDidMount() {
-    socket.on('connect', () => {
-      console.log('socket client connected');
-    })
+    socket.emit('new room', this.accessCode);
   }
 
   render() {
