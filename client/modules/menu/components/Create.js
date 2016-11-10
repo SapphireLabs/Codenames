@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -27,7 +27,10 @@ class Create extends React.Component {
   }
 
   onSubmit(formData) {
-    this.props.createGameAndPlayer(formData);
+    this.props.createGameAndPlayer(formData)
+      .then(res => {
+        browserHistory.push(`/${res.accessCode}/lobby`);
+      });
   }
 
 
