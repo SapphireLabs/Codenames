@@ -8,7 +8,7 @@ import { TextField } from 'redux-form-material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import * as actions from '../actions';
-import { generateAccessCode, validate } from '../../../utils/menu';
+import { validate } from '../../../utils/menu';
 
 const styles = {
   textInput: {
@@ -27,33 +27,9 @@ class Create extends React.Component {
   }
 
   onSubmit(formData) {
-    this.props.createGame(formData);
+    this.props.createGameAndPlayer(formData);
   }
 
-  // createGame() {
-  //   let accessCode = generateAccessCode();
-  //   let created = false;
-  //
-  //   axios.get(`/api/games`)
-  //   .then(res => {
-  //     console.log(res)
-  //     const accessCodesInUse = res.data.map(game => game.accessCode);
-  //
-  //     while (!created) {
-  //       if (!accessCodesInUse.includes(accessCode)) {
-  //         axios.post(`/api/games/${accessCode}`)
-  //         .then(res => {
-  //           console.log('New gameId: ', res.data);
-  //         });
-  //
-  //         created = true;
-  //       } else {
-  //         accessCode = generateAccessCode();
-  //         throw new Error('Access code already exists');
-  //       }
-  //     }
-  //   });
-  // }
 
   render() {
     const { handleSubmit, pristine, submitting } = this.props;

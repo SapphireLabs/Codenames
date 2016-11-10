@@ -24,6 +24,6 @@ router.post('/:code', (req, res, next) => {
   Game.create(newGame)
   .then(id => { res.status(201).json(id[0]) })
   .catch(err => { next(err) })
-})
+});
 
 module.exports = router;
