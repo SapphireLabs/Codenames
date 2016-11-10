@@ -6,7 +6,7 @@ module.exports = {
 }
 
 function create(player) {
-  return knex('players').insert(player).returning('id');
+  return knex('players').insert(player).returning('*');
 }
 
 function getPlayerById(id) {

@@ -18,7 +18,7 @@ router.post('/:gameId', (req, res, next) => {
   };
 
   Player.create(newPlayer)
-  .then(id => { res.status(201).json(id[0]) })
+  .then(player => { res.status(201).json(player[0]) })
   .catch(err => { next(err) })
 });
 

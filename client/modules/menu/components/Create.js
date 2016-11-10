@@ -27,13 +27,20 @@ class Create extends React.Component {
   }
 
   onSubmit(formData) {
+    // create new access code and insert new game in db
+    // insert new player associated with that game
+    // redirect to lobby for that access code
     this.props.createGameAndPlayer(formData)
       .then(res => {
+        localStorage.setItem('playerId', res.player.id);
+        localStorage.setItem('gameId', res.player.gameId);
+        localStorage.setItem('accessCode', res.accessCode);
         browserHistory.push(`/${res.accessCode}/lobby`);
       });
   }
 
 
+  // validated name input using redux-form
   render() {
     const { handleSubmit, pristine, submitting } = this.props;
 

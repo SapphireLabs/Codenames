@@ -15,5 +15,5 @@ function getGameById(id) {
 }
 
 function create(game) {
-  return knex('games').insert(game).returning('id');
+  return knex('games').insert(game).returning('*');
 }

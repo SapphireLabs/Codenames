@@ -6,7 +6,7 @@ import { generateAccessCode } from '../../utils/menu';
 // create game, then create player in that game using created gameId
 export const createGameAndPlayer = (formData) => (dispatch) => {
   return dispatch(createGame())
-    .then(res => dispatch(createPlayer(res.gameId, res.accessCode, formData.name)));
+    .then(res => dispatch(createPlayer(res.game, formData.name)));
 };
 
 // generate access code, and create game if code is not in use
@@ -23,8 +23,7 @@ const createGame = () => {
           return axios.post(`/api/games/${accessCode}`)
           .then(res => ({
             type: t.CREATE_GAME,
-            accessCode,
-            gameId: res.data
+            game: res.data
           }));
           created = true;
         } else {
@@ -35,11 +34,11 @@ const createGame = () => {
 };
 
 // create player in given gameId
-const createPlayer = (gameId, accessCode, name) => {
-  return axios.post(`api/players/${gameId}`, { name })
+const createPlayer = (game, name) => {
+  return axios.post(`api/players/${game.id}`, { name })
     .then(res => ({
       type: t.CREATE_PLAYER,
-      accessCode,
-      playerId: res.data
+      player: res.data,
+      accessCode: game.accessCode
     }));
 };
