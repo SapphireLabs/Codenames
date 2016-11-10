@@ -1,12 +1,14 @@
 import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import morgan from 'morgan';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 
 import webpackConfig from '../webpack.config.js';
 import routes from './routes/index.js';
+import socketIo from 'socket.io';
 
 // set up
 const app = express();
@@ -16,6 +18,7 @@ const assetFolder = path.join(__dirname, '../client/public');
 
 // configuration
 app.use(express.static(assetFolder));
+app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(webpackMiddleware(compiler));
@@ -24,6 +27,9 @@ app.use(webpackMiddleware(compiler));
 app.use('/api', routes);
 
 // launch
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log('App started on: ', port);
 });
+
+const io = new socketIo(server);
+const socketEvents = require('./socket')(io); // decorate server with socket events
