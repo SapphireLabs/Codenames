@@ -16,6 +16,7 @@ export const joinGameIfExists = (formData) => (dispatch) => {
     .then(res => {
       const game = res.data[0];
       if (game) {
+        dispatch(joinGame(game));
         return dispatch(createPlayer(game, formData.name));
       } else {
         console.log('game not found');
@@ -56,3 +57,8 @@ const createPlayer = (game, name) => {
       accessCode: game.accessCode
     }));
 };
+
+const joinGame = (game) => ({
+  type: t.JOIN_GAME,
+  game
+});

@@ -12,15 +12,25 @@ class LobbyComponent extends React.Component {
     super(props);
 
     this.accessCode = this.props.params.accessCode;
+    this._updatePlayers = this._updatePlayers.bind(this);
   }
+
   componentDidMount() {
-    socket.emit('new room', this.accessCode);
+    this._updatePlayers();
+    socket.emit('join socket room', this.accessCode);
+    socket.on('join game', this._updatePlayers);
+  }
+
+  _updatePlayers() {
+    const { getPlayerList, gameId } = this.props;
+
+    getPlayerList(gameId);
   }
 
   render() {
     return (
       <section>
-        <p>Lobby for game: {this.props.params.accessCode}</p>
+        <p>Lobby for game: {this.accessCode}</p>
         <Unassigned playerList={this.props.playerList} />
       </section>
 
@@ -29,6 +39,7 @@ class LobbyComponent extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  gameId: state.menu.game.id,
   playerList: state.lobby.playerList
 });
 

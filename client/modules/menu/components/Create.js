@@ -3,12 +3,14 @@ import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Field, reduxForm } from 'redux-form';
+import io from 'socket.io-client';
 import { TextField } from 'redux-form-material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import * as actions from '../actions';
 import { validate } from '../../../utils/menu';
 
+const socket = io();
 const styles = {
   textInput: {
     margin: 12
@@ -50,6 +52,7 @@ class Create extends React.Component {
             name="name"
             component={TextField}
             floatingLabelText="Enter name"
+            autoComplete="off"
           />
         </div>
         <div>

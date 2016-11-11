@@ -6,6 +6,9 @@ export default function(state = {}, action) {
     case t.CREATE_GAME: {
       return setGame(state, action.game);
     }
+    case t.JOIN_GAME: {
+      return setGame(state, action.game);
+    }
     case t.CREATE_PLAYER: {
       return setPlayer(state, action.player);
     }

@@ -4,12 +4,14 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Field, reduxForm } from 'redux-form';
+import io from 'socket.io-client';
 import { TextField } from 'redux-form-material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import * as actions from '../actions';
 import { validate } from '../../../utils/menu';
 
+const socket = io();
 const styles = {
   textInput: {
     margin: 12
@@ -32,6 +34,7 @@ class Join extends React.Component {
     // else, display snackbar message showing game not found
     this.props.joinGameIfExists(formData)
       .then(res => {
+        socket.emit('join game', res.accessCode);
         localStorage.setItem('playerId', res.player.id);
         localStorage.setItem('gameId', res.player.gameId);
         localStorage.setItem('accessCode', res.accessCode);
@@ -48,16 +51,18 @@ class Join extends React.Component {
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <div>
           <Field
-            name="name"
+            name="accessCode"
             component={TextField}
-            floatingLabelText="Enter name"
+            floatingLabelText="Enter access code"
+            autoComplete="off"
           />
         </div>
         <div>
           <Field
-            name="accessCode"
+            name="name"
             component={TextField}
-            floatingLabelText="Enter access code"
+            floatingLabelText="Enter name"
+            autoComplete="off"
           />
         </div>
         <div>

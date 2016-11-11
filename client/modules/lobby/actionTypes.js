@@ -1,2 +1,1 @@
-export const GET_GAME_STATE = 'GET_GAME_STATE';
 export const GET_PLAYER_LIST = 'GET_PLAYER_LIST';

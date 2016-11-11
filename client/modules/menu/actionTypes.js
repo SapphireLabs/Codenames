@@ -1,6 +1,3 @@
-export const UPDATE_NAME = 'UPDATE_NAME';
-export const UPDATE_ACCESS_CODE = 'UPDATE_ACCESS_CODE';
-export const VALIDATION_ERRORS = 'VALIDATION_ERRORS';
 export const CREATE_GAME = 'CREATE_GAME';
-export const CREATE_PLAYER = 'CREATE_PLAYER';
 export const JOIN_GAME = 'JOIN_GAME';
+export const CREATE_PLAYER = 'CREATE_PLAYER';

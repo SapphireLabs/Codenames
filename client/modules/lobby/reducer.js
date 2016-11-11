@@ -1,10 +1,13 @@
 import * as t from './actionTypes';
-import menu from '../menu';
 
-export default function(state = {}, action) {
+const initialState = {
+  playerList: []
+};
+
+export default function(state = initialState, action) {
   switch (action.type) {
-    case menu.actionTypes.CREATE_PLAYER: {
-      return addToPlayerList(state, action.player);
+    case t.GET_PLAYER_LIST: {
+      return getPlayerList(state, action.playerList);
     }
     default: {
       return state;
@@ -12,10 +15,6 @@ export default function(state = {}, action) {
   }
 }
 
-function addToPlayerList(state, player) {
-  const nextState = {};
-  nextState.playerList = state.playerList || [];
-  nextState.playerList.push(player);
-
-  return nextState;
+function getPlayerList(state, playerList) {
+  return Object.assign({}, { playerList });
 }
