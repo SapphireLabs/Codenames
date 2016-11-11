@@ -21,7 +21,17 @@ app.use(express.static(assetFolder));
 app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
-app.use(webpackMiddleware(compiler));
+app.use(webpackMiddleware(compiler, {
+  stats: {
+    assets: false,
+    colors: true,
+    version: false,
+    hash: false,
+    timings: false,
+    chunks: false,
+    chunkModules: false
+  }
+}));
 
 // routes
 app.use('/api', routes);

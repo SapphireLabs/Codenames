@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import io from 'socket.io-client';
 
 import * as actions from '../actions';
+import Unassigned from './Unassigned';
 
 const socket = io();
 
@@ -18,11 +19,19 @@ class LobbyComponent extends React.Component {
 
   render() {
     return (
-      <p>Lobby for game: {this.props.params.accessCode}</p>
+      <section>
+        <p>Lobby for game: {this.props.params.accessCode}</p>
+        <Unassigned playerList={this.props.playerList} />
+      </section>
+
     );
   }
 }
 
-const Lobby = connect(null, actions)(LobbyComponent);
+const mapStateToProps = (state) => ({
+  playerList: state.lobby.playerList
+});
+
+const Lobby = connect(mapStateToProps, actions)(LobbyComponent);
 
 export { Lobby };
