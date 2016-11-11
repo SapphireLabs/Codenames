@@ -2,7 +2,7 @@ const knex = require('../db/knex');
 
 module.exports = {
   getAll,
-  getGameById,
+  getGameByAccessCode,
   create
 }
 
@@ -10,8 +10,8 @@ function getAll() {
   return knex('games');
 }
 
-function getGameById(id) {
-  return knex('games').where('id', id);
+function getGameByAccessCode(code) {
+  return knex('games').where('accessCode', code);
 }
 
 function create(game) {

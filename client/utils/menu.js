@@ -17,5 +17,10 @@ export function validate(values) {
     errors.name = 'Please enter an alphanumeric name shorter than 15 characters';
   }
 
+  if (!values.accessCode || values.accessCode.trim() === '') errors.accessCode = 'Required';
+  if (values.accessCode && !/^[a-z]{4}$/.test(values.accessCode)) {
+    errors.accessCode = 'Please enter valid access code';
+  }
+
   return errors;
 }

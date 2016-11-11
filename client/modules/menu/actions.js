@@ -9,6 +9,20 @@ export const createGameAndPlayer = (formData) => (dispatch) => {
     .then(res => dispatch(createPlayer(res.game, formData.name)));
 };
 
+// if game exists, create player using that gameId
+// else, dispatch game not found
+export const joinGameIfExists = (formData) => (dispatch) => {
+  return axios.get(`/api/games/${formData.accessCode}`)
+    .then(res => {
+      const game = res.data[0];
+      if (game) {
+        return dispatch(createPlayer(game, formData.name));
+      } else {
+        console.log('game not found');
+      }
+    })
+};
+
 // generate access code, and create game if code is not in use
 const createGame = () => {
   let accessCode = generateAccessCode();
