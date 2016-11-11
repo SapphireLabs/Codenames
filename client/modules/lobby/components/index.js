@@ -1,13 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
+import { GridList, GridTile } from 'material-ui/GridList';
+import Subheader from 'material-ui/Subheader';
 
 import * as actions from '../actions';
 import Unassigned from './Unassigned';
+import Team from './Team';
 
 const socket = io();
 
-class LobbyComponent extends React.Component {
+class LobbyContainer extends React.Component {
   constructor(props) {
     super(props);
 
@@ -29,10 +32,24 @@ class LobbyComponent extends React.Component {
 
   render() {
     return (
-      <section>
-        <p>Lobby for game: {this.accessCode}</p>
-        <Unassigned playerList={this.props.playerList} />
-      </section>
+      <GridList cols={3}>
+        <Subheader>Lobby for game: {this.accessCode}</Subheader>
+        <GridTile>
+          <Team
+            color="Red"
+            playerList={this.props.playerList}
+          />
+        </GridTile>
+        <GridTile>
+          <Team
+            color="Blue"
+            playerList={this.props.playerList}
+          />
+        </GridTile>
+        <GridTile>
+          <Unassigned playerList={this.props.playerList} />
+        </GridTile>
+      </GridList>
 
     );
   }
@@ -43,6 +60,6 @@ const mapStateToProps = (state) => ({
   playerList: state.lobby.playerList
 });
 
-const Lobby = connect(mapStateToProps, actions)(LobbyComponent);
+const Lobby = connect(mapStateToProps, actions)(LobbyContainer);
 
 export { Lobby };
