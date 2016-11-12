@@ -1,10 +1,10 @@
 import * as t from './actionTypes';
 
-// const initialState = {
-//   playerList: []
-// };
+const initialState = {
+  playerList: []
+};
 
-export default function(state = {}, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case t.GET_PLAYER_LIST: {
       return getPlayerList(state, action.playerList);
@@ -15,4 +15,4 @@ export default function(state = {}, action) {
   }
 }
 
-const getPlayerList = (state, playerList) => Object.assign(state, { playerList });
+const getPlayerList = (state, playerList) => Object.assign({}, state, { playerList });

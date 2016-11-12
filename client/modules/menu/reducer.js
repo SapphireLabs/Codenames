@@ -22,5 +22,5 @@ export default function(state = {}, action) {
   }
 }
 
-const setGame = (state, game) => Object.assign(state, { game });
-const setPlayer = (state, player) => Object.assign(state, { player });
+const setGame = (state, game) => Object.assign({}, state, { game });
+const setPlayer = (state, player) => Object.assign({}, state, { player });

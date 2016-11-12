@@ -23,7 +23,10 @@ class Lobby extends React.Component {
     this._updatePlayers();
     socket.emit('join socket room', this.accessCode);
     socket.on('join game', this._updatePlayers);
-    socket.on('update player', this._updatePlayers);
+    socket.on('update player', () => {
+      console.log('received update player emit')
+      this._updatePlayers();
+    });
   }
 
   _updatePlayers() {
@@ -34,7 +37,7 @@ class Lobby extends React.Component {
   }
 
   render() {
-    const { playerId, playerList } = this.props;
+    const { playerId, playerList, teams } = this.props;
 
     return (
       <GridList cols={3}>
@@ -42,7 +45,7 @@ class Lobby extends React.Component {
         <GridTile>
           <Team
             color="Red"
-            playerList={playerList}
+            playerList={teams.red}
             playerId={playerId}
             socket={socket}
             accessCode={this.accessCode}
@@ -51,7 +54,7 @@ class Lobby extends React.Component {
         <GridTile>
           <Team
             color="Blue"
-            playerList={playerList}
+            playerList={teams.blue}
             playerId={playerId}
             socket={socket}
             accessCode={this.accessCode}
@@ -59,7 +62,7 @@ class Lobby extends React.Component {
         </GridTile>
         <GridTile>
           <Unassigned
-            playerList={playerList}
+            playerList={teams.unassigned}
             playerId={playerId}
             socket={socket}
             accessCode={this.accessCode}
@@ -74,7 +77,8 @@ class Lobby extends React.Component {
 const mapStateToProps = (state) => ({
   gameId: state.menu.game.id,
   playerId: state.menu.player.id,
-  playerList: state.lobby.playerList || []
+  playerList: state.lobby.playerList,
+  teams: teamSelector(state)
 });
 
 const LobbyContainer = connect(mapStateToProps, actions)(Lobby);
