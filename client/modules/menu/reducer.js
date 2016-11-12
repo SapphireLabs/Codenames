@@ -1,3 +1,4 @@
+import Lobby from '../lobby';
 import * as t from './actionTypes';
 
 
@@ -10,6 +11,9 @@ export default function(state = {}, action) {
       return setGame(state, action.game);
     }
     case t.CREATE_PLAYER: {
+      return setPlayer(state, action.player);
+    }
+    case Lobby.actionTypes.UPDATE_PLAYER: {
       return setPlayer(state, action.player);
     }
     default: {

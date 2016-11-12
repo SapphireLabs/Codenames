@@ -18,7 +18,8 @@ injectTapEventPlugin();
 const ReduxLogger = createLogger();
 const createStoreWithMiddleware = applyMiddleware(
   ReduxPromise,
-  ReduxThunk
+  ReduxThunk,
+  ReduxLogger
 )(createStore);
 
 export default class App extends React.Component {

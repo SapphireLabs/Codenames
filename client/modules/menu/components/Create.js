@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Field, reduxForm } from 'redux-form';
 import io from 'socket.io-client';
 import { TextField } from 'redux-form-material-ui';

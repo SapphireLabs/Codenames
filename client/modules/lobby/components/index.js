@@ -5,13 +5,13 @@ import { GridList, GridTile } from 'material-ui/GridList';
 import Subheader from 'material-ui/Subheader';
 
 import * as actions from '../actions';
-import * as selectors from '../selectors';
+import { teamSelector } from '../selectors';
 import Unassigned from './Unassigned';
 import Team from './Team';
 
 const socket = io();
 
-class LobbyContainer extends React.Component {
+class Lobby extends React.Component {
   constructor(props) {
     super(props);
 
@@ -23,16 +23,18 @@ class LobbyContainer extends React.Component {
     this._updatePlayers();
     socket.emit('join socket room', this.accessCode);
     socket.on('join game', this._updatePlayers);
+    socket.on('update player', this._updatePlayers);
   }
 
   _updatePlayers() {
+    console.log('updating players')
     const { getPlayerList, gameId } = this.props;
 
     getPlayerList(gameId);
   }
 
   render() {
-    const { redTeam, blueTeam, unassigned } = this.props;
+    const { playerId, playerList } = this.props;
 
     return (
       <GridList cols={3}>
@@ -40,17 +42,28 @@ class LobbyContainer extends React.Component {
         <GridTile>
           <Team
             color="Red"
-            playerList={redTeam}
+            playerList={playerList}
+            playerId={playerId}
+            socket={socket}
+            accessCode={this.accessCode}
           />
         </GridTile>
         <GridTile>
           <Team
             color="Blue"
-            playerList={blueTeam}
+            playerList={playerList}
+            playerId={playerId}
+            socket={socket}
+            accessCode={this.accessCode}
           />
         </GridTile>
         <GridTile>
-          <Unassigned playerList={unassigned} />
+          <Unassigned
+            playerList={playerList}
+            playerId={playerId}
+            socket={socket}
+            accessCode={this.accessCode}
+          />
         </GridTile>
       </GridList>
 
@@ -60,11 +73,10 @@ class LobbyContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   gameId: state.menu.game.id,
-  redTeam: selectors.getRedTeam(state),
-  blueTeam: selectors.getBlueTeam(state),
-  unassigned: selectors.getUnassigned(state)
+  playerId: state.menu.player.id,
+  playerList: state.lobby.playerList || []
 });
 
-const Lobby = connect(mapStateToProps, actions)(LobbyContainer);
+const LobbyContainer = connect(mapStateToProps, actions)(Lobby);
 
-export { Lobby };
+export { LobbyContainer as Lobby, Team, Unassigned };

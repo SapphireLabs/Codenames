@@ -2,6 +2,7 @@ const knex = require('../db/knex');
 
 module.exports = {
   create,
+  update,
   getPlayerById,
   getPlayersByGameId
 }
@@ -16,4 +17,11 @@ function getPlayerById(id) {
 
 function getPlayersByGameId(gameId) {
   return knex('players').where('gameId', gameId);
+}
+
+function update(player) {
+  const id = player.id;
+  delete(player[id]);
+
+  return knex('players').where('id', id).update(player).returning('*');
 }

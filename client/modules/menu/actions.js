@@ -53,7 +53,7 @@ const createPlayer = (game, name) => {
   return axios.post(`api/players/${game.id}`, { name })
     .then(res => ({
       type: t.CREATE_PLAYER,
-      player: res.data,
+      player: res.data[0],
       accessCode: game.accessCode
     }));
 };
