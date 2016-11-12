@@ -5,6 +5,7 @@ import { GridList, GridTile } from 'material-ui/GridList';
 import Subheader from 'material-ui/Subheader';
 
 import * as actions from '../actions';
+import * as selectors from '../selectors';
 import Unassigned from './Unassigned';
 import Team from './Team';
 
@@ -31,23 +32,25 @@ class LobbyContainer extends React.Component {
   }
 
   render() {
+    const { redTeam, blueTeam, unassigned } = this.props;
+
     return (
       <GridList cols={3}>
         <Subheader>Lobby for game: {this.accessCode}</Subheader>
         <GridTile>
           <Team
             color="Red"
-            playerList={this.props.playerList}
+            playerList={redTeam}
           />
         </GridTile>
         <GridTile>
           <Team
             color="Blue"
-            playerList={this.props.playerList}
+            playerList={blueTeam}
           />
         </GridTile>
         <GridTile>
-          <Unassigned playerList={this.props.playerList} />
+          <Unassigned playerList={unassigned} />
         </GridTile>
       </GridList>
 
@@ -57,7 +60,9 @@ class LobbyContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   gameId: state.menu.game.id,
-  playerList: state.lobby.playerList
+  redTeam: selectors.getRedTeam(state),
+  blueTeam: selectors.getBlueTeam(state),
+  unassigned: selectors.getUnassigned(state)
 });
 
 const Lobby = connect(mapStateToProps, actions)(LobbyContainer);
