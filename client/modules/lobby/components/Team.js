@@ -28,15 +28,22 @@ export default class Team extends React.PureComponent {
   }
 
   render() {
+    const { color, spymaster, operatives } = this.props;
+
     return (
       <List>
-        <Subheader>Team {this.props.color}</Subheader>
+        <Subheader>Team {color}</Subheader>
         <Subheader
           inset
           onClick={this.pickRole.bind(this, 'Spymaster')}
         >
           Spymaster
         </Subheader>
+        {spymaster
+        ? <ListItem
+            primaryText={spymaster.name}
+          />
+        : null}
         <Divider />
         <Subheader
           inset
@@ -44,7 +51,7 @@ export default class Team extends React.PureComponent {
         >
           Operatives
         </Subheader>
-        {this.props.playerList.map((player, i) =>
+        {operatives.map((player, i) =>
           <ListItem
             key={i}
             primaryText={player.name}

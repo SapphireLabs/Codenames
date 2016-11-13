@@ -10,6 +10,11 @@ import Unassigned from './Unassigned';
 import Team from './Team';
 
 const socket = io();
+const styles = {
+  teamList: {
+    height: 500
+  }
+}
 
 class Lobby extends React.Component {
   constructor(props) {
@@ -37,30 +42,32 @@ class Lobby extends React.Component {
   }
 
   render() {
-    const { playerId, playerList, teams } = this.props;
+    const { playerId, teams } = this.props;
 
     return (
       <GridList cols={3}>
         <Subheader>Lobby for game: {this.accessCode}</Subheader>
-        <GridTile>
+        <GridTile style={styles.teamList}>
           <Team
             color="Red"
-            playerList={teams.red}
+            spymaster={teams.redSpymaster}
+            operatives={teams.redOperatives}
             playerId={playerId}
             socket={socket}
             accessCode={this.accessCode}
           />
         </GridTile>
-        <GridTile>
+        <GridTile style={styles.teamList}>
           <Team
             color="Blue"
-            playerList={teams.blue}
+            spymaster={teams.blueSpymaster}
+            operatives={teams.blueOperatives}
             playerId={playerId}
             socket={socket}
             accessCode={this.accessCode}
           />
         </GridTile>
-        <GridTile>
+        <GridTile style={styles.teamList}>
           <Unassigned
             playerList={teams.unassigned}
             playerId={playerId}
@@ -77,7 +84,6 @@ class Lobby extends React.Component {
 const mapStateToProps = (state) => ({
   gameId: state.menu.game.id,
   playerId: state.menu.player.id,
-  playerList: state.lobby.playerList,
   teams: teamSelector(state)
 });
 
