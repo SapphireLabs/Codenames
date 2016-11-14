@@ -8,13 +8,14 @@ import * as actions from '../actions';
 import { teamSelector } from '../selectors';
 import Unassigned from './Unassigned';
 import Team from './Team';
+import Options from './Options';
 
 const socket = io();
 const styles = {
   teamList: {
     height: 500
   }
-}
+};
 
 class Lobby extends React.Component {
   constructor(props) {

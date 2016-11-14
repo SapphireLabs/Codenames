@@ -12,12 +12,12 @@ router.get('/:id', (req, res, next) => {
 // GET list of players by gameId
 router.get('/game/:gameId', (req, res, next) => {
   utils.queryHandler(Player.getPlayersByGameId, req.params.gameId, req, res, next);
-})
+});
 
 // GET list of players by gameId
 router.get('/game/:gameId', (req, res, next) => {
   utils.queryHandler(Player.getPlayersByGameId, req.params.gameId, req, res, next);
-})
+});
 
 // UPDATE player
 router.put('/:id', (req, res, next) => {

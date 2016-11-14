@@ -17,7 +17,7 @@ const styles = {
   button: {
     margin: 12
   }
-}
+};
 
 class Create extends React.Component {
   constructor(props) {
