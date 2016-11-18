@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-  // sourcemaps without slowing down rebunding
+  // sourcemaps without slowing down rebundling
   devtool: 'eval-source-map',
   entry: path.join(__dirname, 'client/index.js'),
   output: {
@@ -16,7 +16,7 @@ module.exports = {
       loader: 'babel'
     }, {
       test: /\.css$/,
-      loader: 'style!css' // add css loader
+      loader: 'style!css'
     }, {
       test: /\.json$/,
       loader: 'json' // add json loader

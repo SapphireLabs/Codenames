@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
-import { GridList, GridTile } from 'material-ui/GridList';
 import Subheader from 'material-ui/Subheader';
 
 import * as actions from '../actions';
@@ -46,38 +45,41 @@ class Lobby extends React.Component {
     const { playerId, teams } = this.props;
 
     return (
-      <GridList cols={3}>
-        <Subheader>Lobby for game: {this.accessCode}</Subheader>
-        <GridTile style={styles.teamList}>
-          <Team
-            color="Red"
-            spymaster={teams.redSpymaster}
-            operatives={teams.redOperatives}
-            playerId={playerId}
-            socket={socket}
-            accessCode={this.accessCode}
-          />
-        </GridTile>
-        <GridTile style={styles.teamList}>
-          <Team
-            color="Blue"
-            spymaster={teams.blueSpymaster}
-            operatives={teams.blueOperatives}
-            playerId={playerId}
-            socket={socket}
-            accessCode={this.accessCode}
-          />
-        </GridTile>
-        <GridTile style={styles.teamList}>
-          <Unassigned
-            playerList={teams.unassigned}
-            playerId={playerId}
-            socket={socket}
-            accessCode={this.accessCode}
-          />
-        </GridTile>
-      </GridList>
-
+      <section>
+        <div>
+          <Subheader>Lobby for game: {this.accessCode}</Subheader>
+        </div>
+        <div className="row around-xs">
+          <div className="col-xs-3">
+            <Team
+              color="Red"
+              spymaster={teams.redSpymaster}
+              operatives={teams.redOperatives}
+              playerId={playerId}
+              socket={socket}
+              accessCode={this.accessCode}
+            />
+          </div>
+          <div className="col-xs-3">
+            <Team
+              color="Blue"
+              spymaster={teams.blueSpymaster}
+              operatives={teams.blueOperatives}
+              playerId={playerId}
+              socket={socket}
+              accessCode={this.accessCode}
+            />
+          </div>
+          <div className="col-xs-3">
+            <Unassigned
+              playerList={teams.unassigned}
+              playerId={playerId}
+              socket={socket}
+              accessCode={this.accessCode}
+            />
+          </div>
+        </div>
+      </section>
     );
   }
 }
