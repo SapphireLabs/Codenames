@@ -79,6 +79,9 @@ class Lobby extends React.Component {
             />
           </div>
         </div>
+        <div className="row">
+          <Options />
+        </div>
       </section>
     );
   }

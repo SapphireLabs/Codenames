@@ -14,8 +14,12 @@ export default class Team extends React.PureComponent {
     this.pickRole = this.pickRole.bind(this);
   }
 
+  // update player team and role in db, then socket emit update player list
   pickRole(role) {
-    const { socket, accessCode } = this.props;
+    const { socket, accessCode, spymaster } = this.props;
+
+    // if spymaster already exists, break
+    if (role === 'Spymaster' && spymaster) return;
 
     const player = {
       id: this.props.playerId,

@@ -16,6 +16,10 @@ export function getRandItems(list, n) {
 
 // checks if game is valid and all players are ready
 export function isGameReady(playerList) {
+	// if any players are unassigned
+	if (playerList.some(player => !player.team)) return false;
+
+	// check if team has spymaster and at least one operative
   const teams = {};
   const playersReady = playerList.every(player => {
 		if (!teams[player.team]) teams[player.team] = {};
