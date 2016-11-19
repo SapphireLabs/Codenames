@@ -15,6 +15,9 @@ export default class Unassigned extends React.PureComponent {
   unpick() {
     const { socket, accessCode, pickRole, player } = this.props;
 
+    // if player is already unassigned, break
+    if (!player.team) return;
+
     const updated = {
       id: player.id,
       status: 'waiting',

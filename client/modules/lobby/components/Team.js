@@ -19,6 +19,8 @@ export default class Team extends React.PureComponent {
 
     // if spymaster already exists, break
     if (role === 'Spymaster' && spymaster) return;
+    // if current role is already picked, break
+    if (role === player.role && color === player.team) return;
 
     const updated = {
       id: player.id,
