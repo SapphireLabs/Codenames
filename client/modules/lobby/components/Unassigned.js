@@ -1,4 +1,5 @@
 import React from 'react';
+import { Card, CardHeader, CardText } from 'material-ui/Card';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 
@@ -27,20 +28,22 @@ export default class Unassigned extends React.PureComponent {
 
   render() {
     return (
-      <List>
-        <Subheader
-          inset
+      <Card>
+        <CardHeader
+          title="Unassigned Operatives"
           onClick={this.unpick}
-        >
-          Unassigned Operatives
-        </Subheader>
-        {this.props.playerList.map((player, i) =>
-          <ListItem
-            key={i}
-            primaryText={player.name}
-          />
-        )}
-      </List>
+        />
+        <CardText>
+          <List>
+            {this.props.playerList.map((player, i) =>
+              <ListItem
+                key={i}
+                primaryText={player.name}
+              />
+            )}
+          </List>
+        </CardText>
+      </Card>
     );
   }
 }

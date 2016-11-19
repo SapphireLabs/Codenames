@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
-import Subheader from 'material-ui/Subheader';
 
 import * as actions from '../actions';
 import { teamSelector } from '../selectors';
-import Unassigned from './Unassigned';
+import Header from './Header';
 import Team from './Team';
+import Unassigned from './Unassigned';
 import Options from './Options';
 
 const socket = io();
@@ -46,9 +46,9 @@ class Lobby extends React.Component {
 
     return (
       <section>
-        <div>
-          <Subheader>Lobby for game: {this.accessCode}</Subheader>
-        </div>
+        <Header
+          accessCode={this.accessCode}
+        />
         <div className="row around-xs">
           <div className="col-xs-3">
             <Team
@@ -95,4 +95,4 @@ const mapStateToProps = (state) => ({
 
 const LobbyContainer = connect(mapStateToProps, actions)(Lobby);
 
-export { LobbyContainer as Lobby, Team, Unassigned };
+export { LobbyContainer as Lobby, Header, Team, Unassigned, Options };
