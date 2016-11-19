@@ -23,6 +23,7 @@ export default class Options extends React.PureComponent {
 
     this._handleClickReady = this._handleClickReady.bind(this);
     this._handleClickUnready = this._handleClickUnready.bind(this);
+    this._handleClickStart = this._handleClickStart.bind(this);
   }
 
   _handleClickReady() {
@@ -39,16 +40,25 @@ export default class Options extends React.PureComponent {
       .then(() => { socket.emit('toggle ready', accessCode) });
   }
 
+  _handleClickStart() {
+    const { startGame, game, accessCode } = this.props;
+
+    startGame(game.id)
+      .then(() => { socket.emit('start game', accessCode) });
+  }
+
   render() {
     const { game, player } = this.props;
 
+    // start game enabled for testing
+    // disabled={game.status === 'waiting'}
     return (
       <div>
         { player.host
           ? <RaisedButton
               label="Start Game"
               primary={true}
-              disabled={game.status === 'waiting'}
+              onClick={this._handleClickStart}
               style={styles.button}
             />
           : null
@@ -58,13 +68,13 @@ export default class Options extends React.PureComponent {
               label="Ready"
               primary={true}
               disabled={!player.team}
-              style={styles.button}
               onClick={this._handleClickReady}
+              style={styles.button}
             />
           : <RaisedButton
               label="Unready"
-              style={styles.button}
               onClick={this._handleClickUnready}
+              style={styles.button}
             />
         }
         <RaisedButton

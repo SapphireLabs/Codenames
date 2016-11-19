@@ -72,3 +72,15 @@ export const unreadyPlayer = (player) => (dispatch) => {
     // game unready
     .then(() => dispatch(updateGame({ id: player.gameId, status: 'waiting' })));
 };
+
+// start game
+export const startGame = (gameId) => {
+  axios.post(`/api/words/game/${gameId}`)
+    .then(res => {
+      console.log(res.data)
+    })
+};
+
+// export const startGame = () => (dispatch) => {
+//
+// };

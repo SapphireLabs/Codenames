@@ -51,7 +51,8 @@ class Lobby extends React.Component {
       teams,
       pickRole,
       readyPlayer,
-      unreadyPlayer
+      unreadyPlayer,
+      startGame
     } = this.props;
 
     return (
@@ -100,6 +101,7 @@ class Lobby extends React.Component {
             accessCode={this.accessCode}
             readyPlayer={readyPlayer}
             unreadyPlayer={unreadyPlayer}
+            startGame={startGame}
           />
         </div>
       </section>

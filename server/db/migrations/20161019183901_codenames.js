@@ -23,7 +23,7 @@ exports.up = function(knex, Promise) {
       table.string('word');
       table.integer('position');
       table.string('team');
-      table.boolean('revealed');
+      table.boolean('revealed').defaultTo(false);
       table.timestamps();
     }),
     knex.schema.createTable('votes', function(table) {
