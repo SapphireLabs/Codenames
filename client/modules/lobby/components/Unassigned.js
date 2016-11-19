@@ -3,7 +3,6 @@ import { Card, CardHeader, CardText } from 'material-ui/Card';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 
-import * as a from '../actions';
 
 export default class Unassigned extends React.PureComponent {
   constructor(props) {
@@ -14,7 +13,7 @@ export default class Unassigned extends React.PureComponent {
 
   // unassign team and role in db, then socket emit update player list
   unpick() {
-    const { socket, accessCode } = this.props;
+    const { socket, accessCode, updatePlayer } = this.props;
 
     const player = {
       id: this.props.playerId,
@@ -22,7 +21,7 @@ export default class Unassigned extends React.PureComponent {
       role: null
     };
 
-    a.updatePlayer(player)
+    updatePlayer(player)
       .then(() => { socket.emit('update player', accessCode) });
   }
 

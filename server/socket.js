@@ -9,7 +9,6 @@ module.exports = function(io) {
     })
 
     socket.on('update player', (accessCode) => {
-      console.log('received update player emit')
       io.to(accessCode).emit('update player');
     })
 

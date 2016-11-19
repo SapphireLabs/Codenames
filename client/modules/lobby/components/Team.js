@@ -5,8 +5,6 @@ import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 
-import * as a from '../actions';
-
 
 export default class Team extends React.PureComponent {
   constructor(props) {
@@ -17,7 +15,7 @@ export default class Team extends React.PureComponent {
 
   // update player team and role in db, then socket emit update player list
   pickRole(role) {
-    const { socket, accessCode, spymaster } = this.props;
+    const { socket, accessCode, spymaster, updatePlayer } = this.props;
 
     // if spymaster already exists, break
     if (role === 'Spymaster' && spymaster) return;
@@ -28,7 +26,7 @@ export default class Team extends React.PureComponent {
       role
     };
 
-    a.updatePlayer(player)
+    updatePlayer(player)
       .then(() => { socket.emit('update player', accessCode) });
   }
 

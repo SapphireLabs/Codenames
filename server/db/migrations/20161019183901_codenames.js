@@ -12,6 +12,7 @@ exports.up = function(knex, Promise) {
       table.integer('gameId').references('id').inTable('games');
       table.string('name');
       table.string('status');
+      table.boolean('host');
       table.string('team');
       table.string('role');
       table.timestamps();

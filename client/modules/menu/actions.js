@@ -6,7 +6,7 @@ import { generateAccessCode } from '../../utils/menu';
 // create game, then create player in that game using created gameId
 export const createGameAndPlayer = (formData) => (dispatch) => {
   return dispatch(createGame())
-    .then(res => dispatch(createPlayer(res.game, formData.name)));
+    .then(res => dispatch(createPlayer(res.game, formData.name, true)));
 };
 
 // if game exists, create player using that gameId
@@ -17,7 +17,7 @@ export const joinGameIfExists = (formData) => (dispatch) => {
       const game = res.data[0];
       if (game) {
         dispatch(joinGame(game));
-        return dispatch(createPlayer(game, formData.name));
+        return dispatch(createPlayer(game, formData.name, false));
       } else {
         console.log('game not found');
       }
@@ -49,8 +49,8 @@ const createGame = () => {
 };
 
 // create player in given gameId
-const createPlayer = (game, name) => {
-  return axios.post(`api/players/${game.id}`, { name })
+const createPlayer = (game, name, host) => {
+  return axios.post(`api/players/${game.id}`, { name, host })
     .then(res => ({
       type: t.CREATE_PLAYER,
       player: res.data[0],

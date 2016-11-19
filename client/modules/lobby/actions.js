@@ -34,7 +34,7 @@ export const readyPlayer = (dispatch) => (player) => {
       if (ready) {
 
       } else {
-        
+
       }
     })
 };

@@ -29,6 +29,7 @@ router.post('/:gameId', (req, res, next) => {
   const newPlayer = {
     gameId: req.params.gameId,
     name: req.body.name,
+    host: req.body.host,
     status: 'waiting'
   };
 

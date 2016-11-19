@@ -21,28 +21,24 @@ class Lobby extends React.Component {
     super(props);
 
     this.accessCode = this.props.params.accessCode;
-    this._updatePlayers = this._updatePlayers.bind(this);
+    this._updatePlayerList = this._updatePlayerList.bind(this);
   }
 
   componentDidMount() {
-    this._updatePlayers();
+    this._updatePlayerList();
     socket.emit('join socket room', this.accessCode);
-    socket.on('join game', this._updatePlayers);
-    socket.on('update player', () => {
-      console.log('received update player emit')
-      this._updatePlayers();
-    });
+    socket.on('join game', this._updatePlayerList);
+    socket.on('update player', this._updatePlayerList);
   }
 
-  _updatePlayers() {
-    console.log('updating players')
+  _updatePlayerList() {
     const { getPlayerList, gameId } = this.props;
 
     getPlayerList(gameId);
   }
 
   render() {
-    const { playerId, teams } = this.props;
+    const { playerId, teams, updatePlayer } = this.props;
 
     return (
       <section>
@@ -58,6 +54,7 @@ class Lobby extends React.Component {
               playerId={playerId}
               socket={socket}
               accessCode={this.accessCode}
+              updatePlayer={updatePlayer}
             />
           </div>
           <div className="col-xs-3">
@@ -68,6 +65,7 @@ class Lobby extends React.Component {
               playerId={playerId}
               socket={socket}
               accessCode={this.accessCode}
+              updatePlayer={updatePlayer}
             />
           </div>
           <div className="col-xs-3">
@@ -76,6 +74,7 @@ class Lobby extends React.Component {
               playerId={playerId}
               socket={socket}
               accessCode={this.accessCode}
+              updatePlayer={updatePlayer}
             />
           </div>
         </div>
