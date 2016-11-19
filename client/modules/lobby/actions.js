@@ -13,6 +13,15 @@ export const getPlayerList = (gameId) => {
     }));
 };
 
+// get game using accessCode
+export const getGame = (accessCode) => {
+  return axios.get(`/api/games/${accessCode}`)
+    .then(res => ({
+      type: t.UPDATE_GAME,
+      game: res.data[0]
+    }));
+};
+
 // update player properties
 export const updatePlayer = (player) => {
   return axios.put(`/api/players/${player.id}`, player)
@@ -22,24 +31,44 @@ export const updatePlayer = (player) => {
     }));
 };
 
+// update game properties
+export const updateGame = (game) => {
+  return axios.put(`/api/games/${game.id}`, game)
+    .then(res => ({
+      type: t.UPDATE_GAME,
+      game: res.data[0]
+    }));
+};
+
+// update player role, then also unready player and game
+export const pickRole = (player) => (dispatch) => {
+  return dispatch(updatePlayer(player))
+    .then(action => dispatch(unreadyPlayer(action.player)));
+};
+
 // player ready
-// dispatch updatePlayer action
-// check if all players are ready and game is valid
-// dispatch updateGame to ready
-export const readyPlayer = (dispatch) => (player) => {
-  dispatch(updatePlayer(player))
+export const readyPlayer = (player) => (dispatch) => {
+  player.status = 'ready';
+
+  return dispatch(updatePlayer(player))
     .then(() => axios.get(`/api/players/game/${player.gameId}`))
-    .then(playerList => isGameReady(playerList))
+    // check if all players are ready and game is valid
+    .then(res => isGameReady(res.data))
     .then(ready => {
+      // dispatch updateGame to ready if game is valid
       if (ready) {
-
+        return dispatch(updateGame({ id: player.gameId, status: 'ready' }));
       } else {
-
+        return;
       }
-    })
+    });
 };
 
 // player unready
-export const unreadyPlayer = () => {
+export const unreadyPlayer = (player) => (dispatch) => {
+  player.status = 'waiting';
 
+  return dispatch(updatePlayer(player))
+    // game unready
+    .then(() => dispatch(updateGame({ id: player.gameId, status: 'waiting' })));
 };

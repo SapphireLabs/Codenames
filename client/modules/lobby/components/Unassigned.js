@@ -13,7 +13,7 @@ export default class Unassigned extends React.PureComponent {
 
   // unassign team and role in db, then socket emit update player list
   unpick() {
-    const { socket, accessCode, updatePlayer, player } = this.props;
+    const { socket, accessCode, pickRole, player } = this.props;
 
     const updated = {
       id: player.id,
@@ -22,7 +22,7 @@ export default class Unassigned extends React.PureComponent {
       role: null
     };
 
-    updatePlayer(updated)
+    pickRole(updated)
       .then(() => { socket.emit('update player', accessCode) });
   }
 

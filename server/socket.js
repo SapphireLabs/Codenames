@@ -12,5 +12,9 @@ module.exports = function(io) {
       io.to(accessCode).emit('update player');
     })
 
+    socket.on('toggle ready', (accessCode) => {
+      io.to(accessCode).emit('toggle ready');
+    })
+
   });
 }

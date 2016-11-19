@@ -21,24 +21,38 @@ class Lobby extends React.Component {
     super(props);
 
     this.accessCode = this.props.params.accessCode;
-    this._updatePlayerList = this._updatePlayerList.bind(this);
+    this._refreshPlayerList = this._refreshPlayerList.bind(this);
+    this._refreshGame = this._refreshGame.bind(this);
   }
 
   componentDidMount() {
-    this._updatePlayerList();
+    this._refreshPlayerList();
     socket.emit('join socket room', this.accessCode);
-    socket.on('join game', this._updatePlayerList);
-    socket.on('update player', this._updatePlayerList);
+    socket.on('join game', this._refreshPlayerList);
+    socket.on('update player', this._refreshPlayerList);
+    socket.on('toggle ready', () => {
+      this._refreshPlayerList();
+      this._refreshGame();
+    });
   }
 
-  _updatePlayerList() {
-    const { getPlayerList, game } = this.props;
+  _refreshPlayerList() {
+    this.props.getPlayerList(this.props.game.id);
+  }
 
-    getPlayerList(game.id);
+  _refreshGame() {
+    this.props.getGame(this.accessCode);
   }
 
   render() {
-    const { game, player, teams, updatePlayer } = this.props;
+    const {
+      game,
+      player,
+      teams,
+      pickRole,
+      readyPlayer,
+      unreadyPlayer
+    } = this.props;
 
     return (
       <section>
@@ -54,7 +68,7 @@ class Lobby extends React.Component {
               player={player}
               socket={socket}
               accessCode={this.accessCode}
-              updatePlayer={updatePlayer}
+              pickRole={pickRole}
             />
           </div>
           <div className="col-xs-3">
@@ -65,7 +79,7 @@ class Lobby extends React.Component {
               player={player}
               socket={socket}
               accessCode={this.accessCode}
-              updatePlayer={updatePlayer}
+              pickRole={pickRole}
             />
           </div>
           <div className="col-xs-3">
@@ -74,7 +88,7 @@ class Lobby extends React.Component {
               player={player}
               socket={socket}
               accessCode={this.accessCode}
-              updatePlayer={updatePlayer}
+              pickRole={pickRole}
             />
           </div>
         </div>
@@ -82,6 +96,10 @@ class Lobby extends React.Component {
           <Options
             game={game}
             player={player}
+            socket={socket}
+            accessCode={this.accessCode}
+            readyPlayer={readyPlayer}
+            unreadyPlayer={unreadyPlayer}
           />
         </div>
       </section>

@@ -16,6 +16,9 @@ export default function(state = {}, action) {
     case Lobby.actionTypes.UPDATE_PLAYER: {
       return setPlayer(state, action.player);
     }
+    case Lobby.actionTypes.UPDATE_GAME: {
+      return setGame(state, action.game);
+    }
     default: {
       return state;
     }

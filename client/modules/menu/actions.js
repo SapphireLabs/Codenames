@@ -38,7 +38,7 @@ const createGame = () => {
           return axios.post(`/api/games/${accessCode}`)
           .then(res => ({
             type: t.CREATE_GAME,
-            game: res.data
+            game: res.data[0]
           }));
           created = true;
         } else {

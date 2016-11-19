@@ -14,6 +14,12 @@ router.get('/:code', (req, res, next) => {
   utils.queryHandler(Game.getGameByAccessCode, req.params.code, req, res, next);
 });
 
+// UPDATE game
+router.put('/:id', (req, res, next) => {
+  req.body.id = req.params.id;
+  utils.queryHandler(Game.update, req.body, req, res, next);
+});
+
 // INSERT new game
 router.post('/:code', (req, res, next) => {
   const newGame = {
@@ -21,9 +27,7 @@ router.post('/:code', (req, res, next) => {
     status: 'waiting'
   };
 
-  Game.create(newGame)
-  .then(game => { res.status(201).json(game[0]) })
-  .catch(err => { next(err) })
+  utils.queryHandler(Game.create, newGame, req, res, next);
 });
 
 module.exports = router;
