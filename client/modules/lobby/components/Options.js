@@ -17,21 +17,32 @@ const styles = {
 // onclick ready - update player status to ready, check game valid
 // if player status is ready - show unready button
 // onclick unready = update player status to waiting, update game status to waiting
-
 export default class Options extends React.PureComponent {
+
   render() {
+    const { game, player } = this.props;
+
     return (
       <div>
-        <RaisedButton
-          label="Ready"
-          primary={true}
-          style={styles.button}
-        />
-        <RaisedButton
-          label="Start Game"
-          primary={true}
-          style={styles.button}
-        />
+        { player.host
+        ? <RaisedButton
+            label="Start Game"
+            primary={true}
+            disabled={game.status === 'waiting'}
+            style={styles.button}
+          />
+        : player.status === 'waiting'
+        ? <RaisedButton
+            label="Ready"
+            primary={true}
+            disabled={!player.team}
+            style={styles.button}
+          />
+        : <RaisedButton
+            label="Unready"
+            style={styles.button}
+          />
+        }
         <RaisedButton
           label="Leave Game"
           secondary={true}

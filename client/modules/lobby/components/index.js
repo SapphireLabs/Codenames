@@ -32,13 +32,13 @@ class Lobby extends React.Component {
   }
 
   _updatePlayerList() {
-    const { getPlayerList, gameId } = this.props;
+    const { getPlayerList, game } = this.props;
 
-    getPlayerList(gameId);
+    getPlayerList(game.id);
   }
 
   render() {
-    const { playerId, teams, updatePlayer } = this.props;
+    const { game, player, teams, updatePlayer } = this.props;
 
     return (
       <section>
@@ -51,7 +51,7 @@ class Lobby extends React.Component {
               color="Red"
               spymaster={teams.redSpymaster}
               operatives={teams.redOperatives}
-              playerId={playerId}
+              player={player}
               socket={socket}
               accessCode={this.accessCode}
               updatePlayer={updatePlayer}
@@ -62,7 +62,7 @@ class Lobby extends React.Component {
               color="Blue"
               spymaster={teams.blueSpymaster}
               operatives={teams.blueOperatives}
-              playerId={playerId}
+              player={player}
               socket={socket}
               accessCode={this.accessCode}
               updatePlayer={updatePlayer}
@@ -71,7 +71,7 @@ class Lobby extends React.Component {
           <div className="col-xs-3">
             <Unassigned
               playerList={teams.unassigned}
-              playerId={playerId}
+              player={player}
               socket={socket}
               accessCode={this.accessCode}
               updatePlayer={updatePlayer}
@@ -79,7 +79,10 @@ class Lobby extends React.Component {
           </div>
         </div>
         <div className="row">
-          <Options />
+          <Options
+            game={game}
+            player={player}
+          />
         </div>
       </section>
     );
@@ -87,8 +90,8 @@ class Lobby extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  gameId: state.menu.game.id,
-  playerId: state.menu.player.id,
+  game: state.menu.game,
+  player: state.menu.player,
   teams: teamSelector(state)
 });
 
