@@ -41,7 +41,7 @@ export default class Options extends React.PureComponent {
   }
 
   _handleClickStart() {
-    const { startGame, game, accessCode } = this.props;
+    const { startGame, game, socket, accessCode } = this.props;
 
     startGame(game.id)
       .then(() => { socket.emit('start game', accessCode) });

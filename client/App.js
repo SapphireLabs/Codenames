@@ -12,6 +12,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import rootReducer from './rootReducer';
 import Menu from './modules/menu';
 import Lobby from './modules/lobby';
+import Game from './modules/game';
 
 injectTapEventPlugin();
 
@@ -34,6 +35,7 @@ export default class App extends React.Component {
               <Route path="join" component={Menu.components.Join} />
             </Route>
             <Route path="/:accessCode/lobby" component={Lobby.components.Lobby} />
+            <Route path="/:accessCode/game" component={Game.components.Game} />
           </Router>
         </MuiThemeProvider>
       </Provider>

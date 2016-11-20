@@ -16,5 +16,8 @@ module.exports = function(io) {
       io.to(accessCode).emit('toggle ready');
     })
 
+    socket.on('start game', (accessCode) => {
+      io.to(accessCode).emit('start game');
+    })
   });
 }

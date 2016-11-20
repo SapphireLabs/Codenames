@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import io from 'socket.io-client';
 
 import * as actions from '../actions';
@@ -9,12 +10,8 @@ import Team from './Team';
 import Unassigned from './Unassigned';
 import Options from './Options';
 
+
 const socket = io();
-const styles = {
-  teamList: {
-    height: 500
-  }
-};
 
 class Lobby extends React.Component {
   constructor(props) {
@@ -33,6 +30,9 @@ class Lobby extends React.Component {
     socket.on('toggle ready', () => {
       this._refreshPlayerList();
       this._refreshGame();
+    });
+    socket.on('start game', () => {
+      browserHistory.push(`/${this.accessCode}/game`);
     });
   }
 
