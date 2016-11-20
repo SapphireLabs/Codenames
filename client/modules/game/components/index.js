@@ -7,6 +7,14 @@ import Board from './Board';
 
 
 const socket = io();
+const styles = {
+  gameContainer: {
+    'min-width': 500
+  },
+  chatContainer: {
+    'border': '1px solid black'
+  }
+};
 
 class Game extends React.Component {
   componentDidMount() {
@@ -18,11 +26,24 @@ class Game extends React.Component {
     const { params, words } = this.props;
 
     return (
-      <section>
-        <div>Game view for {params.accessCode}</div>
-        <Board
-          words={words}
-        />
+      <section className="row center-xs">
+        <div className="col-xs-9" style={styles.gameContainer}>
+          <div className="row">
+            <div className="col-xs-12">
+              HEADER
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-xs-9">
+              <Board
+                words={words}
+              />
+            </div>
+            <div className="col-xs-3" style={styles.chatContainer}>
+              CHAT
+            </div>
+          </div>
+        </div>
       </section>
     );
   }

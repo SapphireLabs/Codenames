@@ -7,12 +7,25 @@ export default class Board extends React.PureComponent {
   }
 
   render() {
+    const { words } = this.props;
+
     return (
-      <GridList
-        cols={5}
-        padding={2}
-      >
-      </GridList>
+      <div>
+        { words
+          ? <GridList
+            cols={5}
+            padding={2}
+          >
+            {words.map(word =>
+              <GridTile
+                key={word.position}
+                title={word.word}
+              />
+            )}
+          </GridList>
+          : null
+        }
+      </div>
     );
   }
 }
