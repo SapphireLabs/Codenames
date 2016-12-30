@@ -14,7 +14,7 @@ const styles = {
   wrapper: {
     display: 'flex',
     flexDirection: 'column',
-    height: '80vh',
+    height: '100vh',
     border: '1px solid black',
   },
   header: {
@@ -60,6 +60,7 @@ class Game extends React.Component {
         <section style={styles.main}>
           <article style={styles.board}>
             BOARD
+            <Board words={words} />
           </article>
           <aside style={styles.chat}>
             CHAT

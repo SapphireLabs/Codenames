@@ -47,10 +47,17 @@ export default class Options extends React.PureComponent {
       .then(() => { socket.emit('start game', accessCode) });
   }
 
+  // socket emit leave game
+  // redirect to root
+  // designate next player as host
+  _handleClickLeave() {
+    browserHistory.push('/');
+  }
+
   render() {
     const { game, player } = this.props;
 
-    // start game enabled for testing
+    // start game enabled for dev
     // disabled={game.status === 'waiting'}
     return (
       <div>
@@ -80,6 +87,7 @@ export default class Options extends React.PureComponent {
         <RaisedButton
           label="Leave Game"
           secondary={true}
+          onClick={this._handleClickLeave}
           style={styles.button}
         />
       </div>
