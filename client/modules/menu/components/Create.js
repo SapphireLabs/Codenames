@@ -12,10 +12,10 @@ import { validate } from '../../../utils/menu';
 const socket = io();
 const styles = {
   textInput: {
-    margin: 12
+    margin: 15
   },
   button: {
-    margin: 12
+    margin: 15
   }
 };
 

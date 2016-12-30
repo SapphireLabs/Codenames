@@ -12,6 +12,16 @@ import Options from './Options';
 
 
 const socket = io();
+const styles = {
+  container: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center'
+  }
+};
 
 class Lobby extends React.Component {
   constructor(props) {
@@ -56,7 +66,7 @@ class Lobby extends React.Component {
     } = this.props;
 
     return (
-      <section>
+      <section style={styles.container}>
         <Header
           accessCode={this.accessCode}
         />
