@@ -1,0 +1,26 @@
+version: '3'
+services:
+  node:
+    depends_on:
+      - db
+    image: node:8.6.0-alpine
+    command: ["npm", "start"]
+    working_dir: /codenames
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/codenames
+    environment:
+      DATABASE_PORT: 5432
+      DATABASE_HOST: db
+      DATABASE_NAME: codenames
+      DATABASE_USER: root
+      DATABASE_PASSWORD: root
+  db:
+    image: postgres:10-alpine
+    ports:
+      - "2000:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: codenames

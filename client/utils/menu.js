@@ -13,7 +13,7 @@ export function validate(values) {
   let errors = {};
 
   if (!values.name || values.name.trim() === '') errors.name = 'Required';
-  if (values.name && !/^[a-zA-Z0-9]{0,14}$/.test(values.name)) {
+  if (values.name && !/^[a-zA-Z0-9\s]{0,14}$/.test(values.name)) {
     errors.name = 'Please enter an alphanumeric name shorter than 15 characters';
   }
 
