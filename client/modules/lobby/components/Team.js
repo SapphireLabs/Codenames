@@ -1,8 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
-import { List, ListItem } from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
+import { List, ListItem, ListSubHeader } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 
 
@@ -41,22 +40,22 @@ export default class Team extends React.PureComponent {
         <CardHeader title={`Team ${color}`} />
         <CardText>
           <List>
-            <Subheader
+            <ListSubHeader
               onClick={this.pickRole.bind(this, 'Spymaster')}
             >
               Spymaster
-            </Subheader>
+            </ListSubHeader>
             {spymaster
             ? <ListItem
                 primaryText={spymaster.name}
               />
             : null}
             <Divider />
-            <Subheader
+            <ListSubHeader
               onClick={this.pickRole.bind(this, 'Operative')}
             >
               Operatives
-            </Subheader>
+            </ListSubHeader>
             {operatives.map((player, i) =>
               <ListItem
                 key={i}

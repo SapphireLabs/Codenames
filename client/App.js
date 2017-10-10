@@ -8,14 +8,12 @@ import ReduxThunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { StyleRoot } from 'radium';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import rootReducer from './rootReducer';
 import Menu from './modules/menu';
 import Lobby from './modules/lobby';
 import Game from './modules/game';
 
-injectTapEventPlugin();
 
 const ReduxLogger = createLogger();
 const createStoreWithMiddleware = applyMiddleware(

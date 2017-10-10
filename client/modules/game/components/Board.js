@@ -17,9 +17,6 @@ const styles = {
 };
 
 export default class Board extends React.PureComponent {
-  componentDidMount() {
-  }
-
   render() {
     const { words } = this.props;
 

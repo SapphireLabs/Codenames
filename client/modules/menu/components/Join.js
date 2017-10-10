@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Field, reduxForm } from 'redux-form';
 import io from 'socket.io-client';
-import { TextField } from 'redux-form-material-ui';
+import { TextField } from '@gfpacheco/redux-form-material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import * as actions from '../actions';
