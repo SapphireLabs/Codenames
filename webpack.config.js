@@ -13,17 +13,17 @@ module.exports = {
     loaders: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      loader: 'babel'
+      loader: 'babel-loader'
     }, {
       test: /\.css$/,
-      loader: 'style!css'
+      loader: 'style-loader!css-loader'
     }, {
       test: /\.json$/,
       loader: 'json' // add json loader
     }]
   },
   resolve: {
-    extensions: ['', '.js', '.json', '.jsx']
+    extensions: ['.js', '.json', '.jsx']
   },
   devServer: {
     historyApiFallback: true

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import io from 'socket.io-client';
 import { TextField } from '@gfpacheco/redux-form-material-ui';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
 
 import * as actions from '../actions';
 import { validate } from '../../../utils/menu';
@@ -55,7 +55,8 @@ class Create extends React.Component {
           />
         </div>
         <div>
-          <RaisedButton
+          <Button
+            raised
             label="Create Game"
             type="submit"
             disabled={pristine || submitting}
@@ -63,7 +64,8 @@ class Create extends React.Component {
             style={styles.button}
           />
           <Link to="/">
-            <RaisedButton
+            <Button
+              raised
               label="Back"
               secondary={true}
               style={styles.button}

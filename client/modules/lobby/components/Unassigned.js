@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import { List, ListItem } from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
 
 
 export default class Unassigned extends React.PureComponent {

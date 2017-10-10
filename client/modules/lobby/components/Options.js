@@ -2,7 +2,7 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
 
 import * as actions from '../actions';
 
@@ -62,7 +62,8 @@ export default class Options extends React.PureComponent {
     return (
       <div>
         { player.host
-          ? <RaisedButton
+          ? <Button
+              raised
               label="Start Game"
               primary={true}
               onClick={this._handleClickStart}
@@ -71,20 +72,23 @@ export default class Options extends React.PureComponent {
           : null
         }
         { player.status === 'waiting'
-          ? <RaisedButton
+          ? <Button
+              raised
               label="Ready"
               primary={true}
               disabled={!player.team}
               onClick={this._handleClickReady}
               style={styles.button}
             />
-          : <RaisedButton
+          : <Button
+              raised
               label="Unready"
               onClick={this._handleClickUnready}
               style={styles.button}
             />
         }
-        <RaisedButton
+        <Button
+          raised
           label="Leave Game"
           secondary={true}
           onClick={this._handleClickLeave}
