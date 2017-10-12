@@ -33,7 +33,7 @@ export class Create extends React.Component {
     // create new access code and insert new game in db
     // insert new player associated with that game
     // redirect to lobby for that access code
-    this.props.createGameAndPlayer(formData)
+    this.props.menuActions.createGameAndPlayer(formData)
       .then(res => {
         localStorage.setItem('playerId', res.player.id);
         localStorage.setItem('gameId', res.player.gameId);
@@ -52,8 +52,8 @@ export class Create extends React.Component {
 
     return (
       <TextField
-        { ...props }
-        { ...input }
+        {...props}
+        {...input}
         label={label}
         autoComplete="off"
       />

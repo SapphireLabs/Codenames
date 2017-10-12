@@ -1,7 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
+import { reducer as formReducer } from 'redux-form';
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
 
-import { Create } from './Create';
+import Create from './Create';
 
 const defaultProps = {
   handleSubmit: jest.fn(),
@@ -13,7 +16,24 @@ const defaultProps = {
 const setupProps = (options) => ({ ...defaultProps, ...options });
 
 describe('Create Menu Component', () => {
+  let store;
+  let onSave;
+
+  beforeEach(() => {
+    store = createStore(combineReducers({ form: formReducer }));
+    onSave = jest.fn().mockReturnValue(Promise.resolve());
+  });
+
   it('should render without crashing', () => {
-    shallow(<Create {...setupProps()} />);
+    const props = {
+      ...defaultProps,
+      onSave,
+    };
+
+    mount(
+      <Provider store={store}>
+        <Create {...props} />
+      </Provider>
+    );
   });
 });
