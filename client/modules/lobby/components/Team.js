@@ -1,24 +1,25 @@
 import React from 'react';
-import axios from 'axios';
+import PropTypes from 'prop-types';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import { List, ListItem, ListSubHeader } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 
-
 export default class Team extends React.PureComponent {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    accessCode: PropTypes.string.isRequired,
+    pickRole: PropTypes.func.isRequired,
+    player: PropTypes.object.isRequired,
+    socket: PropTypes.object.isRequired,
+    spymaster: PropTypes.object.isRequired,
+  };
 
-    this.pickRole = this.pickRole.bind(this);
-  }
-
-  // update player team and role in db, then socket emit update player list
-  pickRole(role) {
+  // Update player team and role in db, then socket emit update player list
+  pickRole = (role) => {
     const { socket, accessCode, spymaster, pickRole, player, color } = this.props;
 
-    // if spymaster already exists, break
+    // If spymaster already exists, exit
     if (role === 'Spymaster' && spymaster) return;
-    // if current role is already picked, break
+    // If current role is already picked, exit
     if (role === player.role && color === player.team) return;
 
     const updated = {
@@ -30,7 +31,7 @@ export default class Team extends React.PureComponent {
 
     pickRole(updated)
       .then(() => { socket.emit('update player', accessCode) });
-  }
+  };
 
   render() {
     const { color, spymaster, operatives } = this.props;

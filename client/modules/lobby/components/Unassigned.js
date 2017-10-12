@@ -1,20 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import { List, ListItem } from 'material-ui/List';
 
-
 export default class Unassigned extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.unpick = this.unpick.bind(this);
+  static propTypes = {
+    accessCode: PropTypes.string.isRequired,
+    socket: PropTypes.object.isRequired,
+    pickRole: PropTypes.func.isRequired,
+    player: PropTypes.object.isRequired,
   }
 
-  // unassign team and role in db, then socket emit update player list
-  unpick() {
+  // Unassign team and role in db, then socket emit update player list
+  unpick = () => {
     const { socket, accessCode, pickRole, player } = this.props;
 
-    // if player is already unassigned, break
+    // If player is already unassigned, exit
     if (!player.team) return;
 
     const updated = {
@@ -26,7 +27,7 @@ export default class Unassigned extends React.PureComponent {
 
     pickRole(updated)
       .then(() => { socket.emit('update player', accessCode) });
-  }
+  };
 
   render() {
     return (
