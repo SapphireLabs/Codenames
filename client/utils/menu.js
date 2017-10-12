@@ -10,6 +10,7 @@ export function generateAccessCode() {
 }
 
 export function validate(values) {
+  console.log(values)
   let errors = {};
 
   if (!values.name || values.name.trim() === '') errors.name = 'Required';

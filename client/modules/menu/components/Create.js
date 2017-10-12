@@ -3,7 +3,7 @@ import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import io from 'socket.io-client';
-import { TextField } from '@gfpacheco/redux-form-material-ui';
+import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
 import * as actions from '../actions';
@@ -17,6 +17,32 @@ const styles = {
   button: {
     margin: 15
   }
+};
+
+const renderField = ({
+  input,
+  label,
+  type,
+  meta: { touched, error, warning }
+}) => {
+  const props = {};
+  console.log(input)
+  console.log(touched)
+  console.log(error)
+
+  if (touched && error) {
+    props.error = true;
+    props.helperText = error;
+  }
+
+  return (
+    <TextField
+      { ...props }
+      { ...input }
+      label={label}
+      autoComplete="off"
+    />
+  );
 };
 
 class Create extends React.Component {
@@ -39,7 +65,6 @@ class Create extends React.Component {
       });
   }
 
-
   // validated name input using redux-form
   render() {
     const { handleSubmit, pristine, submitting } = this.props;
@@ -49,27 +74,29 @@ class Create extends React.Component {
         <div>
           <Field
             name="name"
-            component={TextField}
-            floatingLabelText="Enter name"
-            autoComplete="off"
+            type="text"
+            label="Enter name"
+            component={renderField}
           />
         </div>
         <div>
           <Button
             raised
-            label="Create Game"
+            color="primary"
             type="submit"
             disabled={pristine || submitting}
-            primary={true}
             style={styles.button}
-          />
+          >
+            Create Game
+          </Button>
           <Link to="/">
             <Button
               raised
-              label="Back"
-              secondary={true}
+              color="accent"
               style={styles.button}
-            />
+            >
+              Back
+            </Button>
           </Link>
         </div>
       </form>
