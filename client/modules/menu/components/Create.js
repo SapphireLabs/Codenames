@@ -26,9 +26,6 @@ const renderField = ({
   meta: { touched, error, warning }
 }) => {
   const props = {};
-  console.log(input)
-  console.log(touched)
-  console.log(error)
 
   if (touched && error) {
     props.error = true;
