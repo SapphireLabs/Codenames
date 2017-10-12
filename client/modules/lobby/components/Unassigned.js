@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardHeader, CardText } from 'material-ui/Card';
-import { List, ListItem } from 'material-ui/List';
+import Card, { CardHeader, CardContent } from 'material-ui/Card';
+import List, { ListItem, ListItemText } from 'material-ui/List';
 
 export default class Unassigned extends React.PureComponent {
   static propTypes = {
@@ -36,16 +36,15 @@ export default class Unassigned extends React.PureComponent {
           title="Unassigned Operatives"
           onClick={this.unpick}
         />
-        <CardText>
+        <CardContent>
           <List>
             {this.props.playerList.map((player, i) =>
-              <ListItem
-                key={i}
-                primaryText={player.name}
-              />
+              <ListItem key={i}>
+                <ListItemText primary={player.name} />
+              </ListItem>
             )}
           </List>
-        </CardText>
+        </CardContent>
       </Card>
     );
   }

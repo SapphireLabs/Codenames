@@ -2,7 +2,7 @@ var path = require('path');
 
 module.exports = {
   // sourcemaps without slowing down rebundling
-  devtool: 'eval-source-map',
+  devtool: 'cheap-module-source-map',
   entry: path.join(__dirname, 'client/index.js'),
   output: {
     path: path.join(__dirname, 'dist'),

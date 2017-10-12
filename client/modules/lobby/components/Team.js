@@ -1,16 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardHeader, CardText } from 'material-ui/Card';
-import { List, ListItem, ListSubHeader } from 'material-ui/List';
+import Card, { CardHeader, CardContent } from 'material-ui/Card';
+import List, { ListItem, ListItemText } from 'material-ui/List';
+import ListSubheader from 'material-ui/List/ListSubheader';
 import Divider from 'material-ui/Divider';
 
 export default class Team extends React.PureComponent {
   static propTypes = {
     accessCode: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired,
+    operatives: PropTypes.array.isRequired,
     pickRole: PropTypes.func.isRequired,
     player: PropTypes.object.isRequired,
     socket: PropTypes.object.isRequired,
-    spymaster: PropTypes.object.isRequired,
+    spymaster: PropTypes.object,
   };
 
   // Update player team and role in db, then socket emit update player list
@@ -38,33 +41,35 @@ export default class Team extends React.PureComponent {
 
     return (
       <Card>
-        <CardHeader title={`Team ${color}`} />
-        <CardText>
-          <List>
-            <ListSubHeader
+        <CardHeader
+          title={`Team ${color}`} 
+          onClick={this.pickRole.bind(this, 'Operative')}
+        />
+        <CardContent>
+          <List subheader>
+            <ListSubheader
               onClick={this.pickRole.bind(this, 'Spymaster')}
             >
               Spymaster
-            </ListSubHeader>
+            </ListSubheader>
             {spymaster
-            ? <ListItem
-                primaryText={spymaster.name}
-              />
+            ? <ListItem>
+                <ListItemText primary={spymaster.name} />
+              </ListItem>
             : null}
             <Divider />
-            <ListSubHeader
+            <ListSubheader
               onClick={this.pickRole.bind(this, 'Operative')}
             >
               Operatives
-            </ListSubHeader>
+            </ListSubheader>
             {operatives.map((player, i) =>
-              <ListItem
-                key={i}
-                primaryText={player.name}
-              />
+              <ListItem key={i}>
+                <ListItemText primary={player.name} />
+              </ListItem>
             )}
           </List>
-        </CardText>
+        </CardContent>
       </Card>
     );
   }
