@@ -1,14 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link, browserHistory } from 'react-router';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Field, reduxForm } from 'redux-form';
 import io from 'socket.io-client';
-import { TextField } from '@gfpacheco/redux-form-material-ui';
+import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
-import * as actions from '../actions';
+import * as menuActions from '../actions';
 import { validate } from '../../../utils/menu';
 
 const socket = io();
@@ -19,20 +19,21 @@ const styles = {
   button: {
     margin: 12
   }
-}
+};
 
-class Join extends React.Component {
-  constructor(props) {
-    super(props);
+export class Join extends React.Component {
+  static propTypes = {
+    handleSubmit: PropTypes.func.isRequired,
+    menuActions: PropTypes.object.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    submitting: PropTypes.bool.isRequired,
+  };
 
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  onSubmit(formData) {
-    // check if access code exists
-    // if it does, create a new player using that gameId
-    // else, display snackbar message showing game not found
-    this.props.joinGameIfExists(formData)
+  onSubmit = (formData) => {
+    // Check if access code exists
+    // If it does, create a new player using that gameId
+    // Else, display snackbar message showing game not found
+    this.props.menuActions.joinGameIfExists(formData)
       .then(res => {
         socket.emit('join game', res.accessCode);
         localStorage.setItem('playerId', res.player.id);
@@ -40,10 +41,27 @@ class Join extends React.Component {
         localStorage.setItem('accessCode', res.accessCode);
         browserHistory.push(`/${res.accessCode}/lobby`);
       })
-  }
+  };
 
+  renderField = ({ input, label, type, meta: { touched, error, warning } }) => {
+    const props = {};
 
-  // validated name input using redux-form
+    if (touched && error) {
+      props.error = true;
+      props.helperText = error;
+    }
+
+    return (
+      <TextField
+        {...props}
+        {...input}
+        label={label}
+        autoComplete="off"
+      />
+    );
+  };
+
+  // Validated access code and name input using redux-form
   render() {
     const { handleSubmit, pristine, submitting } = this.props;
 
@@ -52,35 +70,37 @@ class Join extends React.Component {
         <div>
           <Field
             name="accessCode"
-            component={TextField}
-            floatingLabelText="Enter access code"
-            autoComplete="off"
+            type="text"
+            label="Enter access code"
+            component={this.renderField}
           />
         </div>
         <div>
           <Field
             name="name"
-            component={TextField}
-            floatingLabelText="Enter name"
-            autoComplete="off"
+            type="text"
+            label="Enter name"
+            component={this.renderField}
           />
         </div>
         <div>
           <Button
             raised
-            label="Join Game"
+            color="primary"
             type="submit"
             disabled={pristine || submitting}
-            primary={true}
             style={styles.button}
-          />
+          >
+            Join Game
+          </Button>
           <Link to="/">
             <Button
               raised
-              label="Back"
-              secondary={true}
+              color="accent"
               style={styles.button}
-            />
+            >
+              Back
+            </Button>
           </Link>
         </div>
       </form>
@@ -88,7 +108,12 @@ class Join extends React.Component {
   }
 }
 
-export default connect(null, actions)(reduxForm({
+const mapDispatchToProps = (dispatch) => ({
+  menuActions: bindActionCreators(menuActions, dispatch),
+});
+
+export default connect(null, mapDispatchToProps)(reduxForm({
   form: 'JoinForm',
+  touchOnChange: true,
   validate
 })(Join));

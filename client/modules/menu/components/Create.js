@@ -30,9 +30,9 @@ export class Create extends React.Component {
   };
 
   onSubmit = (formData) => {
-    // create new access code and insert new game in db
-    // insert new player associated with that game
-    // redirect to lobby for that access code
+    // Create new access code and insert new game in db
+    // Insert new player associated with that game
+    // Redirect to lobby for that access code
     this.props.menuActions.createGameAndPlayer(formData)
       .then(res => {
         localStorage.setItem('playerId', res.player.id);
@@ -60,7 +60,7 @@ export class Create extends React.Component {
     );
   };
 
-  // validated name input using redux-form
+  // Validated name input using redux-form
   render() {
     const { handleSubmit, pristine, submitting } = this.props;
 
