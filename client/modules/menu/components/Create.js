@@ -1,12 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Field, reduxForm } from 'redux-form';
 import io from 'socket.io-client';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
-import * as actions from '../actions';
+import * as menuActions from '../actions';
 import { validate } from '../../../utils/menu';
 
 const socket = io();
@@ -19,37 +21,15 @@ const styles = {
   }
 };
 
-const renderField = ({
-  input,
-  label,
-  type,
-  meta: { touched, error, warning }
-}) => {
-  const props = {};
+export class Create extends React.Component {
+  static propTypes = {
+    handleSubmit: PropTypes.func.isRequired,
+    menuActions: PropTypes.object.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    submitting: PropTypes.bool.isRequired,
+  };
 
-  if (touched && error) {
-    props.error = true;
-    props.helperText = error;
-  }
-
-  return (
-    <TextField
-      { ...props }
-      { ...input }
-      label={label}
-      autoComplete="off"
-    />
-  );
-};
-
-class Create extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  onSubmit(formData) {
+  onSubmit = (formData) => {
     // create new access code and insert new game in db
     // insert new player associated with that game
     // redirect to lobby for that access code
@@ -60,7 +40,25 @@ class Create extends React.Component {
         localStorage.setItem('accessCode', res.accessCode);
         browserHistory.push(`/${res.accessCode}/lobby`);
       });
-  }
+  };
+
+  renderField = ({ input, label, type, meta: { touched, error, warning } }) => {
+    const props = {};
+
+    if (touched && error) {
+      props.error = true;
+      props.helperText = error;
+    }
+
+    return (
+      <TextField
+        { ...props }
+        { ...input }
+        label={label}
+        autoComplete="off"
+      />
+    );
+  };
 
   // validated name input using redux-form
   render() {
@@ -73,7 +71,7 @@ class Create extends React.Component {
             name="name"
             type="text"
             label="Enter name"
-            component={renderField}
+            component={this.renderField}
           />
         </div>
         <div>
@@ -101,7 +99,12 @@ class Create extends React.Component {
   }
 }
 
-export default connect(null, actions)(reduxForm({
+const mapDispatchToProps = (dispatch) => ({
+  menuActions: bindActionCreators(menuActions, dispatch),
+});
+
+export default connect(null, mapDispatchToProps)(reduxForm({
   form: 'CreateForm',
+  touchOnChange: true,
   validate
 })(Create));
