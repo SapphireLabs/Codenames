@@ -1,0 +1,34 @@
+version: '3'
+services:
+  react:
+    image: node:8.6.0-alpine
+    command: ["npm", "start"]
+    working_dir: /codenames-client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/codenames-client
+  express:
+    depends_on:
+      - db
+    image: node:8.6.0-alpine
+    command: ["npm", "start"]
+    working_dir: /codenames-server
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./server:/codenames-server
+    environment:
+      DATABASE_PORT: 5432
+      DATABASE_HOST: db
+      DATABASE_NAME: codenames
+      DATABASE_USER: root
+      DATABASE_PASSWORD: root
+  db:
+    image: postgres:10-alpine
+    ports:
+      - "3002:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: codenames
