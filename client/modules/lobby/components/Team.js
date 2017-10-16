@@ -1,24 +1,28 @@
 import React from 'react';
-import axios from 'axios';
-import { Card, CardHeader, CardText } from 'material-ui/Card';
-import { List, ListItem, ListSubHeader } from 'material-ui/List';
+import PropTypes from 'prop-types';
+import Card, { CardHeader, CardContent } from 'material-ui/Card';
+import List, { ListItem, ListItemText } from 'material-ui/List';
+import ListSubheader from 'material-ui/List/ListSubheader';
 import Divider from 'material-ui/Divider';
 
-
 export default class Team extends React.PureComponent {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    accessCode: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired,
+    operatives: PropTypes.array.isRequired,
+    pickRole: PropTypes.func.isRequired,
+    player: PropTypes.object.isRequired,
+    socket: PropTypes.object.isRequired,
+    spymaster: PropTypes.object,
+  };
 
-    this.pickRole = this.pickRole.bind(this);
-  }
-
-  // update player team and role in db, then socket emit update player list
-  pickRole(role) {
+  // Update player team and role in db, then socket emit update player list
+  pickRole = (role) => {
     const { socket, accessCode, spymaster, pickRole, player, color } = this.props;
 
-    // if spymaster already exists, break
+    // If spymaster already exists, exit
     if (role === 'Spymaster' && spymaster) return;
-    // if current role is already picked, break
+    // If current role is already picked, exit
     if (role === player.role && color === player.team) return;
 
     const updated = {
@@ -30,40 +34,42 @@ export default class Team extends React.PureComponent {
 
     pickRole(updated)
       .then(() => { socket.emit('update player', accessCode) });
-  }
+  };
 
   render() {
     const { color, spymaster, operatives } = this.props;
 
     return (
       <Card>
-        <CardHeader title={`Team ${color}`} />
-        <CardText>
-          <List>
-            <ListSubHeader
+        <CardHeader
+          title={`Team ${color}`} 
+          onClick={this.pickRole.bind(this, 'Operative')}
+        />
+        <CardContent>
+          <List subheader>
+            <ListSubheader
               onClick={this.pickRole.bind(this, 'Spymaster')}
             >
               Spymaster
-            </ListSubHeader>
+            </ListSubheader>
             {spymaster
-            ? <ListItem
-                primaryText={spymaster.name}
-              />
+            ? <ListItem>
+                <ListItemText primary={spymaster.name} />
+              </ListItem>
             : null}
             <Divider />
-            <ListSubHeader
+            <ListSubheader
               onClick={this.pickRole.bind(this, 'Operative')}
             >
               Operatives
-            </ListSubHeader>
+            </ListSubheader>
             {operatives.map((player, i) =>
-              <ListItem
-                key={i}
-                primaryText={player.name}
-              />
+              <ListItem key={i}>
+                <ListItemText primary={player.name} />
+              </ListItem>
             )}
           </List>
-        </CardText>
+        </CardContent>
       </Card>
     );
   }
