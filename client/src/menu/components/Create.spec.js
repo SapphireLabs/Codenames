@@ -1,5 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import { MemoryRouter } from 'react-router';
 import { reducer as formReducer } from 'redux-form';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
@@ -32,7 +33,9 @@ describe('Create Menu Component', () => {
 
     mount(
       <Provider store={store}>
-        <Create {...props} />
+        <MemoryRouter>
+          <Create {...props} />
+        </MemoryRouter>
       </Provider>
     );
   });

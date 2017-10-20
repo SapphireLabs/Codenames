@@ -3,27 +3,17 @@ import React from 'react';
 import Start from './Start';
 import Create from './Create';
 import Join from './Join';
-
-
-const styles = {
-  container: {
-    height: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center'
-  }
-};
+import MenuGrid from '../../common/layout/MenuGrid';
 
 class Menu extends React.Component {
   render() {
     return (
-      <div style={styles.container}>
+      <MenuGrid>
         <div>
           <h1>Codenames</h1>
           {this.props.children}
         </div>
-      </div>
+      </MenuGrid>
     );
   }
 }
