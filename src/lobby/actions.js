@@ -1,14 +1,13 @@
 import axios from 'axios';
 
-import * as t from './actionTypes';
+import actionTypes from './actionTypes';
 import { isGameReady } from '../utils/game';
-
 
 // get player list using gameId
 export const getPlayerList = (gameId) => {
   return axios.get(`/api/players/game/${gameId}`)
     .then(res => ({
-      type: t.GET_PLAYER_LIST,
+      type: actionTypes.GET_PLAYER_LIST,
       playerList: res.data
     }));
 };
@@ -17,7 +16,7 @@ export const getPlayerList = (gameId) => {
 export const getGame = (accessCode) => {
   return axios.get(`/api/games/${accessCode}`)
     .then(res => ({
-      type: t.UPDATE_GAME,
+      type: actionTypes.UPDATE_GAME,
       game: res.data[0]
     }));
 };
@@ -26,7 +25,7 @@ export const getGame = (accessCode) => {
 export const updatePlayer = (player) => {
   return axios.put(`/api/players/${player.id}`, player)
     .then(res => ({
-      type: t.UPDATE_PLAYER,
+      type: actionTypes.UPDATE_PLAYER,
       player: res.data[0]
     }));
 };
@@ -35,7 +34,7 @@ export const updatePlayer = (player) => {
 export const updateGame = (game) => {
   return axios.put(`/api/games/${game.id}`, game)
     .then(res => ({
-      type: t.UPDATE_GAME,
+      type: actionTypes.UPDATE_GAME,
       game: res.data[0]
     }));
 };

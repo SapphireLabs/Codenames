@@ -1,7 +1,6 @@
-import * as components from './components';
-import * as actions from './actions';
-import * as actionTypes from './actionTypes';
+import components from './components';
+import actionTypes from './actionTypes';
 import reducer from './reducer';
+import * as actions from './actions';
 
-
-export default { components, actions, actionTypes, reducer };
+export default { actions, actionTypes, components, reducer };

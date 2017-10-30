@@ -19,9 +19,9 @@ export const joinGameIfExists = (formData) => (dispatch) => {
         dispatch(joinGame(game));
         return dispatch(createPlayer(game, formData.name, false));
       } else {
-        console.log('game not found');
+        throw new Error(`Game not found with access code ${formData.accessCode}`);
       }
-    })
+    });
 };
 
 // generate access code, and create game if code is not in use

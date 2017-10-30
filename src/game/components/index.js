@@ -1,5 +1,4 @@
 import React from 'react';
-import Radium from 'radium';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
 
@@ -78,6 +77,6 @@ const mapStateToProps = (state) => ({
   words: state.game.words
 });
 
-const GameContainer = connect(mapStateToProps, actions)(Radium(Game));
+const GameContainer = connect(mapStateToProps, actions)(Game);
 
 export { GameContainer as Game, Board };

@@ -34,6 +34,7 @@
     "jest": "20.0.4",
     "knex": "^0.13.0",
     "material-ui": "^1.0.0-beta.17",
+    "material-ui-icons": "^1.0.0-beta.17",
     "morgan": "^1.9.0",
     "nodemon": "^1.12.1",
     "object-assign": "4.1.1",

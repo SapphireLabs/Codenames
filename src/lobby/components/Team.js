@@ -42,7 +42,7 @@ export default class Team extends React.PureComponent {
     return (
       <Card>
         <CardHeader
-          title={`Team ${color}`} 
+          title={`Team ${color}`}
           onClick={this.pickRole.bind(this, 'Operative')}
         />
         <CardContent>
