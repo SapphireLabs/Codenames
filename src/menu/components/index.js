@@ -1,21 +1,13 @@
-import React from 'react';
-
-import Start from './Start';
 import Create from './Create';
 import Join from './Join';
-import MenuGrid from '../../common/layout/MenuGrid';
+import Menu from './Menu';
+import Start from './Start';
 
-class Menu extends React.Component {
-  render() {
-    return (
-      <MenuGrid>
-        <div>
-          <h1>Codenames</h1>
-          {this.props.children}
-        </div>
-      </MenuGrid>
-    );
-  }
-}
+const components = {
+  Create,
+  Join,
+  Menu,
+  Start,
+};
 
-export { Menu, Start, Create, Join };
+export default components;

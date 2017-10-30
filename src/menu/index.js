@@ -1,5 +1,5 @@
-import * as components from './components';
-import * as actionTypes from './actionTypes';
+import components from './components';
+import actionTypes from './actionTypes';
 import reducer from './reducer';
 import * as actions from './actions';
 

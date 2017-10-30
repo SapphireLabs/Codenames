@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import * as t from './actionTypes';
+import actionTypes from './actionTypes';
 import { generateAccessCode } from '../utils/menu';
 
 // create game, then create player in that game using created gameId
@@ -38,9 +38,9 @@ const createGame = () => {
           return axios.post(`/api/games/${accessCode}`)
           .then(res => {
             created = true;
-            
+
             return {
-              type: t.CREATE_GAME,
+              type: actionTypes.CREATE_GAME,
               game: res.data[0]
             };
           });
@@ -55,13 +55,13 @@ const createGame = () => {
 const createPlayer = (game, name, host) => {
   return axios.post(`api/players/${game.id}`, { name, host })
     .then(res => ({
-      type: t.CREATE_PLAYER,
+      type: actionTypes.CREATE_PLAYER,
       player: res.data[0],
       accessCode: game.accessCode
     }));
 };
 
 const joinGame = (game) => ({
-  type: t.JOIN_GAME,
+  type: actionTypes.JOIN_GAME,
   game
 });
