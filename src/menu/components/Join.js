@@ -14,8 +14,9 @@ import { validate } from '../../utils/menu';
 
 const socket = io();
 const styles = {
-  textInput: {
-    margin: 12
+  input: {
+    margin: 12,
+    width: '100%',
   },
   button: {
     margin: 12
@@ -58,6 +59,7 @@ export class Join extends React.Component {
         {...input}
         label={label}
         autoComplete="off"
+        style={styles.input}
       />
     );
   };

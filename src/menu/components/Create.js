@@ -13,8 +13,9 @@ import * as menuActions from '../actions';
 import { validate } from '../../utils/menu';
 
 const styles = {
-  textInput: {
-    margin: 15
+  input: {
+    margin: 15,
+    width: '100%',
   },
   button: {
     margin: 15
@@ -56,6 +57,7 @@ export class Create extends React.Component {
         {...input}
         label={label}
         autoComplete="off"
+        style={styles.input}
       />
     );
   };
