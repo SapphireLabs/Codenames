@@ -6,31 +6,34 @@ import Grid from 'material-ui/Grid';
 const styles = theme => ({
   root: {
     flexGrow: 1,
+    height: '100%',
   },
 });
 
 class MenuGrid extends React.Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    children: PropTypes.oneOfType([
-      PropTypes.node,
-      PropTypes.arrayOf(PropTypes.node),
-    ]).isRequired,
+    children: PropTypes.node.isRequired,
   };
 
   render() {
     const { children, classes } = this.props;
 
     return (
-      <Grid container className={classes.root}>
-        <Grid item xs={12}>
+      <Grid
+        container
+        alignItems="center"
+        justify="center"
+        className={classes.root}
+      >
+        <Grid item xs={6}>
           <Grid
             container
             direction="column"
             alignItems="center"
             justify="center"
           >
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               {children}
             </Grid>
           </Grid>
