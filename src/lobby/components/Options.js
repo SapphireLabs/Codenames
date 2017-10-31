@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import io from 'socket.io-client';
 import Button from 'material-ui/Button';
 
+import socket, { socketEvents } from '../../common/socket';
 import * as actions from '../actions';
 
 const styles = {
@@ -25,30 +25,29 @@ export class Options extends React.PureComponent {
     game: PropTypes.object.isRequired,
     player: PropTypes.object.isRequired,
     readyPlayer: PropTypes.func.isRequired,
-    socket: PropTypes.object.isRequired,
     startGame: PropTypes.func.isRequired,
     unreadyPlayer: PropTypes.func.isRequired,
   };
 
   handleClickReady = () => {
-    const { player, readyPlayer, socket, accessCode } = this.props;
+    const { player, readyPlayer, accessCode } = this.props;
 
     readyPlayer(player)
-      .then(() => { socket.emit('toggle ready', accessCode) });
+      .then(() => { socket.emit(socketEvents.TOGGLE_READY, accessCode) });
   };
 
   handleClickUnready = () => {
-    const { player, unreadyPlayer, socket, accessCode } = this.props;
+    const { player, unreadyPlayer, accessCode } = this.props;
 
     unreadyPlayer(player)
-      .then(() => { socket.emit('toggle ready', accessCode) });
+      .then(() => { socket.emit(socketEvents.TOGGLE_READY, accessCode) });
   };
 
   handleClickStart = () => {
-    const { startGame, game, socket, accessCode } = this.props;
+    const { startGame, game, accessCode } = this.props;
 
     startGame(game.id)
-      .then(() => { socket.emit('start game', accessCode) });
+      .then(() => { socket.emit(socketEvents.START_GAME, accessCode) });
   };
 
   // Socket emit leave game

@@ -5,6 +5,8 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import ListSubheader from 'material-ui/List/ListSubheader';
 import Divider from 'material-ui/Divider';
 
+import socket, { socketEvents } from '../../common/socket';
+
 export default class Team extends React.PureComponent {
   static propTypes = {
     accessCode: PropTypes.string.isRequired,
@@ -12,13 +14,12 @@ export default class Team extends React.PureComponent {
     operatives: PropTypes.array.isRequired,
     pickRole: PropTypes.func.isRequired,
     player: PropTypes.object.isRequired,
-    socket: PropTypes.object.isRequired,
     spymaster: PropTypes.object,
   };
 
   // Update player team and role in db, then socket emit update player list
   pickRole = (role) => {
-    const { socket, accessCode, spymaster, pickRole, player, color } = this.props;
+    const { accessCode, spymaster, pickRole, player, color } = this.props;
 
     // If spymaster already exists, exit
     if (role === 'Spymaster' && spymaster) return;
@@ -33,7 +34,7 @@ export default class Team extends React.PureComponent {
     };
 
     pickRole(updated)
-      .then(() => { socket.emit('update player', accessCode) });
+      .then(() => { socket.emit(socketEvents.UPDATE_PLAYER, accessCode) });
   };
 
   render() {

@@ -5,11 +5,10 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Field, reduxForm } from 'redux-form';
-import io from 'socket.io-client';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
-import socket from '../../common/socket';
+import socket, { socketEvents } from '../../common/socket';
 import { validate } from '../../utils/menu';
 import * as menuActions from '../actions';
 
@@ -37,7 +36,7 @@ export class Join extends React.Component {
     // Else, display snackbar message showing game not found
     this.props.menuActions.joinGameIfExists(formData)
       .then(res => {
-        socket.emit('join game', res.accessCode);
+        socket.emit(socketEvents.JOIN_GAME, res.accessCode);
         localStorage.setItem('playerId', res.player.id);
         localStorage.setItem('gameId', res.player.gameId);
         localStorage.setItem('accessCode', res.accessCode);

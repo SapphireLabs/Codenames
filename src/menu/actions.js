@@ -31,10 +31,10 @@ const createGame = () => {
 
   return axios.get(`/api/games`)
     .then(res => {
-      const accessCodesInUse = res.data.map(game => game.accessCode);
+      const accessCodesInUse = new Set(res.data.map(game => game.accessCode));
 
       while (!created) {
-        if (!accessCodesInUse.includes(accessCode)) {
+        if (!accessCodesInUse.has(accessCode)) {
           return axios.post(`/api/games/${accessCode}`)
           .then(res => {
             created = true;

@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
-import io from 'socket.io-client';
 
-import socket from '../../common/socket';
+import socket, { socketEvents } from '../../common/socket';
 import * as lobbyActions from '../actions';
 import { teamSelector } from '../selectors';
 import Header from './Header';
@@ -35,14 +34,14 @@ export class Lobby extends React.Component {
   componentDidMount() {
     this._refreshGame();
     this._refreshPlayerList();
-    socket.emit('join socket room', this.accessCode);
-    socket.on('join game', this._refreshPlayerList);
-    socket.on('update player', this._refreshPlayerList);
-    socket.on('toggle ready', () => {
+    socket.emit(socketEvents.JOIN_SOCKET_ROOM, this.accessCode);
+    socket.on(socketEvents.JOIN_GAME, this._refreshPlayerList);
+    socket.on(socketEvents.UPDATE_PLAYER, this._refreshPlayerList);
+    socket.on(socketEvents.TOGGLE_READY, () => {
       this._refreshPlayerList();
       this._refreshGame();
     });
-    socket.on('start game', () => {
+    socket.on(socketEvents.START_GAME, () => {
       this.props.dispatch(push(`/${this.accessCode}/game`));
     });
   }
@@ -81,7 +80,6 @@ export class Lobby extends React.Component {
               spymaster={teams.redSpymaster}
               operatives={teams.redOperatives}
               player={player}
-              socket={socket}
               accessCode={this.accessCode}
               pickRole={lobbyActions.pickRole}
             />
@@ -92,7 +90,6 @@ export class Lobby extends React.Component {
               spymaster={teams.blueSpymaster}
               operatives={teams.blueOperatives}
               player={player}
-              socket={socket}
               accessCode={this.accessCode}
               pickRole={lobbyActions.pickRole}
             />
@@ -101,7 +98,6 @@ export class Lobby extends React.Component {
             <Unassigned
               playerList={teams.unassigned}
               player={player}
-              socket={socket}
               accessCode={this.accessCode}
               pickRole={lobbyActions.pickRole}
             />
@@ -111,7 +107,6 @@ export class Lobby extends React.Component {
           <Options
             game={game}
             player={player}
-            socket={socket}
             accessCode={this.accessCode}
             readyPlayer={lobbyActions.readyPlayer}
             unreadyPlayer={lobbyActions.unreadyPlayer}
