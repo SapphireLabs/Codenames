@@ -19,6 +19,8 @@
     "debug": "^3.1.0",
     "dotenv": "4.0.0",
     "eslint": "4.4.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-prettier": "^2.6.0",
     "eslint-config-react-app": "^2.0.1",
     "eslint-loader": "1.9.0",
     "eslint-plugin-flowtype": "2.35.0",
@@ -31,8 +33,10 @@
     "fs-extra": "3.0.1",
     "history": "^4.7.2",
     "html-webpack-plugin": "2.29.0",
+    "husky": "^0.14.3",
     "jest": "20.0.4",
     "knex": "^0.13.0",
+    "lint-staged": "^4.3.0",
     "material-ui": "^1.0.0-beta.17",
     "material-ui-icons": "^1.0.0-beta.17",
     "morgan": "^1.9.0",
@@ -41,6 +45,7 @@
     "pg": "^7.3.0",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",
+    "prettier": "^1.7.4",
     "promise": "8.0.1",
     "prop-types": "^15.6.0",
     "radium": "^0.19.5",
@@ -69,7 +74,14 @@
     "webpack-manifest-plugin": "1.2.1",
     "whatwg-fetch": "2.0.3"
   },
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,css}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  },
   "scripts": {
+    "precommit": "lint-staged",
     "start": "node scripts/start.js",
     "start:server": "nodemon ./server/bin/www",
     "build": "node scripts/build.js",
