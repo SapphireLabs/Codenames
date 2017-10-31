@@ -23,6 +23,12 @@ app.set('port', port);
 var server = http.createServer(app);
 
 /**
+ * Decorate server with socket events
+ */
+var io = new socketIo(server);
+var socketEvents = require('../socket')(io);
+
+/**
  * Listen on provided port, on all network interfaces.
  */
 
@@ -31,12 +37,6 @@ server.listen(port, function() {
 });
 server.on('error', onError);
 server.on('listening', onListening);
-
-/**
- * Decorate server with socket events
- */
-var io = new socketIo(server);
-var socketEvents = require('../socket')(io);
 
 /**
  * Normalize a port into a number, string, or false.

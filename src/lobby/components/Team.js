@@ -5,6 +5,8 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import ListSubheader from 'material-ui/List/ListSubheader';
 import Divider from 'material-ui/Divider';
 
+import socket, { socketEvents } from '../../common/socket';
+
 export default class Team extends React.PureComponent {
   static propTypes = {
     accessCode: PropTypes.string.isRequired,
@@ -12,13 +14,20 @@ export default class Team extends React.PureComponent {
     operatives: PropTypes.array.isRequired,
     pickRole: PropTypes.func.isRequired,
     player: PropTypes.object.isRequired,
-    socket: PropTypes.object.isRequired,
-    spymaster: PropTypes.object,
+    spymaster: PropTypes.object
+  };
+
+  handleClickOperative = () => {
+    this.pickRole('Operative');
+  };
+
+  handleClickSpymaster = () => {
+    this.pickRole('Spymaster');
   };
 
   // Update player team and role in db, then socket emit update player list
-  pickRole = (role) => {
-    const { socket, accessCode, spymaster, pickRole, player, color } = this.props;
+  pickRole = role => {
+    const { accessCode, spymaster, pickRole, player, color } = this.props;
 
     // If spymaster already exists, exit
     if (role === 'Spymaster' && spymaster) return;
@@ -32,8 +41,9 @@ export default class Team extends React.PureComponent {
       role
     };
 
-    pickRole(updated)
-      .then(() => { socket.emit('update player', accessCode) });
+    pickRole(updated).then(() => {
+      socket.emit(socketEvents.UPDATE_PLAYER, accessCode);
+    });
   };
 
   render() {
@@ -42,32 +52,28 @@ export default class Team extends React.PureComponent {
     return (
       <Card>
         <CardHeader
-          title={`Team ${color}`} 
-          onClick={this.pickRole.bind(this, 'Operative')}
+          title={`Team ${color}`}
+          onClick={this.handleClickOperative}
         />
         <CardContent>
           <List subheader>
-            <ListSubheader
-              onClick={this.pickRole.bind(this, 'Spymaster')}
-            >
+            <ListSubheader onClick={this.handleClickSpymaster}>
               Spymaster
             </ListSubheader>
-            {spymaster
-            ? <ListItem>
+            {spymaster ? (
+              <ListItem>
                 <ListItemText primary={spymaster.name} />
               </ListItem>
-            : null}
+            ) : null}
             <Divider />
-            <ListSubheader
-              onClick={this.pickRole.bind(this, 'Operative')}
-            >
+            <ListSubheader onClick={this.handleClickOperative}>
               Operatives
             </ListSubheader>
-            {operatives.map((player, i) =>
-              <ListItem key={i}>
+            {operatives.map(player => (
+              <ListItem key={player.id}>
                 <ListItemText primary={player.name} />
               </ListItem>
-            )}
+            ))}
           </List>
         </CardContent>
       </Card>

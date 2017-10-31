@@ -1,3 +1,7 @@
-export const CREATE_GAME = 'CREATE_GAME';
-export const JOIN_GAME = 'JOIN_GAME';
-export const CREATE_PLAYER = 'CREATE_PLAYER';
+const actionTypes = {
+  CREATE_GAME: 'CREATE_GAME',
+  JOIN_GAME: 'JOIN_GAME',
+  CREATE_PLAYER: 'CREATE_PLAYER',
+};
+
+export default actionTypes;

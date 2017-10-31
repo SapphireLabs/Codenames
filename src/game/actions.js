@@ -1,13 +1,10 @@
 import axios from 'axios';
 
-import * as t from './actionTypes';
-
+import actionTypes from './actionTypes';
 
 // GET board of words from db
-export const getWords = (gameId) => {
-  return axios.get(`/api/words/game/${gameId}`)
-    .then(res => ({
-      type: t.GET_WORDS,
-      words: res.data
-    }));
-}
+export const getWords = gameId =>
+  axios.get(`/api/words/game/${gameId}`).then(res => ({
+    type: actionTypes.GET_WORDS,
+    words: res.data
+  }));

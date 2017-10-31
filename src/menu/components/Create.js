@@ -5,7 +5,6 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Field, reduxForm } from 'redux-form';
-import io from 'socket.io-client';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
@@ -13,8 +12,9 @@ import * as menuActions from '../actions';
 import { validate } from '../../utils/menu';
 
 const styles = {
-  textInput: {
-    margin: 15
+  input: {
+    margin: 15,
+    width: '100%'
   },
   button: {
     margin: 15
@@ -23,26 +23,26 @@ const styles = {
 
 export class Create extends React.Component {
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     menuActions: PropTypes.object.isRequired,
     pristine: PropTypes.bool.isRequired,
-    submitting: PropTypes.bool.isRequired,
+    submitting: PropTypes.bool.isRequired
   };
 
-  onSubmit = (formData) => {
+  onSubmit = formData => {
     // Create new access code and insert new game in db
     // Insert new player associated with that game
     // Redirect to lobby for that access code
-    this.props.menuActions.createGameAndPlayer(formData)
-      .then(res => {
-        localStorage.setItem('playerId', res.player.id);
-        localStorage.setItem('gameId', res.player.gameId);
-        localStorage.setItem('accessCode', res.accessCode);
-        this.props.dispatch(push(`/${res.accessCode}/lobby`));
-      });
+    this.props.menuActions.createGameAndPlayer(formData).then(res => {
+      localStorage.setItem('playerId', res.player.id);
+      localStorage.setItem('gameId', res.player.gameId);
+      localStorage.setItem('accessCode', res.accessCode);
+      this.props.dispatch(push(`/${res.accessCode}/lobby`));
+    });
   };
 
-  renderField = ({ input, label, type, meta: { touched, error, warning } }) => {
+  renderField = ({ input, label, meta: { touched, error } }) => {
     const props = {};
 
     if (touched && error) {
@@ -56,6 +56,7 @@ export class Create extends React.Component {
         {...input}
         label={label}
         autoComplete="off"
+        style={styles.input}
       />
     );
   };
@@ -85,11 +86,7 @@ export class Create extends React.Component {
             Create Game
           </Button>
           <Link to="/">
-            <Button
-              raised
-              color="accent"
-              style={styles.button}
-            >
+            <Button raised color="accent" style={styles.button}>
               Back
             </Button>
           </Link>
@@ -99,13 +96,15 @@ export class Create extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   dispatch,
-  menuActions: bindActionCreators(menuActions, dispatch),
+  menuActions: bindActionCreators(menuActions, dispatch)
 });
 
-export default connect(null, mapDispatchToProps)(reduxForm({
-  form: 'CreateForm',
-  touchOnChange: true,
-  validate
-})(Create));
+export default connect(null, mapDispatchToProps)(
+  reduxForm({
+    form: 'CreateForm',
+    touchOnChange: true,
+    validate
+  })(Create)
+);

@@ -2,16 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import io from 'socket.io-client';
 import Button from 'material-ui/Button';
 
-import * as actions from '../actions';
+import socket, { socketEvents } from '../../common/socket';
 
 const styles = {
   button: {
-    margin: 12,
-  },
+    margin: 12
+  }
 };
 
 // If player has team picked, enable ready button
@@ -22,33 +20,36 @@ const styles = {
 export class Options extends React.PureComponent {
   static propTypes = {
     accessCode: PropTypes.string.isRequired,
+    dispatch: PropTypes.func.isRequired,
     game: PropTypes.object.isRequired,
     player: PropTypes.object.isRequired,
     readyPlayer: PropTypes.func.isRequired,
-    socket: PropTypes.object.isRequired,
     startGame: PropTypes.func.isRequired,
-    unreadyPlayer: PropTypes.func.isRequired,
+    unreadyPlayer: PropTypes.func.isRequired
   };
 
   handleClickReady = () => {
-    const { player, readyPlayer, socket, accessCode } = this.props;
+    const { player, readyPlayer, accessCode } = this.props;
 
-    readyPlayer(player)
-      .then(() => { socket.emit('toggle ready', accessCode) });
+    readyPlayer(player).then(() => {
+      socket.emit(socketEvents.TOGGLE_READY, accessCode);
+    });
   };
 
   handleClickUnready = () => {
-    const { player, unreadyPlayer, socket, accessCode } = this.props;
+    const { player, unreadyPlayer, accessCode } = this.props;
 
-    unreadyPlayer(player)
-      .then(() => { socket.emit('toggle ready', accessCode) });
+    unreadyPlayer(player).then(() => {
+      socket.emit(socketEvents.TOGGLE_READY, accessCode);
+    });
   };
 
   handleClickStart = () => {
-    const { startGame, game, socket, accessCode } = this.props;
+    const { startGame, game, accessCode } = this.props;
 
-    startGame(game.id)
-      .then(() => { socket.emit('start game', accessCode) });
+    startGame(game.id).then(() => {
+      socket.emit(socketEvents.START_GAME, accessCode);
+    });
   };
 
   // Socket emit leave game
@@ -59,43 +60,43 @@ export class Options extends React.PureComponent {
   };
 
   render() {
-    const { game, player } = this.props;
+    const { player } = this.props;
 
     // start game enabled for dev
     // disabled={game.status === 'waiting'}
     return (
       <div>
-        { player.host
-          ? <Button
-              raised
-              color="primary"
-              label="Start Game"
-              onClick={this.handleClickStart}
-              style={styles.button}
-            >
-              Start Game
-            </Button>
-          : null
-        }
-        { player.status === 'waiting'
-          ? <Button
-              raised
-              color="primary"
-              label="Ready"
-              disabled={!player.team}
-              onClick={this.handleClickReady}
-              style={styles.button}
-            >
-              Ready
-            </Button>
-          : <Button
-              raised
-              onClick={this.handleClickUnready}
-              style={styles.button}
-            >
-              Unready
-            </Button>
-        }
+        {player.host ? (
+          <Button
+            raised
+            color="primary"
+            label="Start Game"
+            onClick={this.handleClickStart}
+            style={styles.button}
+          >
+            Start Game
+          </Button>
+        ) : null}
+        {player.status === 'waiting' ? (
+          <Button
+            raised
+            color="primary"
+            label="Ready"
+            disabled={!player.team}
+            onClick={this.handleClickReady}
+            style={styles.button}
+          >
+            Ready
+          </Button>
+        ) : (
+          <Button
+            raised
+            onClick={this.handleClickUnready}
+            style={styles.button}
+          >
+            Unready
+          </Button>
+        )}
         <Button
           raised
           color="accent"
@@ -110,7 +111,7 @@ export class Options extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  dispatch,
+  dispatch
 });
 
 export default connect(null, mapDispatchToProps)(Options);

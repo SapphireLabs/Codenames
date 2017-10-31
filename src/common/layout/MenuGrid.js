@@ -3,41 +3,33 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     flexGrow: 1,
-  },
+    height: '100%'
+  }
 });
 
-class MenuGrid extends React.Component {
-  static propTypes = {
-    classes: PropTypes.object.isRequired,
-    children: PropTypes.oneOfType([
-      PropTypes.node,
-      PropTypes.arrayOf(PropTypes.node),
-    ]).isRequired,
-  };
-
-  render() {
-    const { children, classes } = this.props;
-
-    return (
-      <Grid container className={classes.root}>
-        <Grid item xs={12}>
-          <Grid
-            container
-            direction="column"
-            alignItems="center"
-            justify="center"
-          >
-            <Grid item xs={12}>
-              {children}
-            </Grid>
-          </Grid>
+const MenuGrid = props => (
+  <Grid
+    container
+    alignItems="center"
+    justify="center"
+    className={props.classes.root}
+  >
+    <Grid item xs={6}>
+      <Grid container direction="column" alignItems="center" justify="center">
+        <Grid item xs={6}>
+          {props.children}
         </Grid>
       </Grid>
-    );
-  }
-}
+    </Grid>
+  </Grid>
+);
+
+MenuGrid.propTypes = {
+  classes: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired
+};
 
 export default withStyles(styles)(MenuGrid);

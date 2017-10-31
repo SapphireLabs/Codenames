@@ -5,7 +5,6 @@ import Menu from './menu';
 import Lobby from './lobby';
 import Game from './game';
 
-
 export default combineReducers({
   menu: Menu.reducer,
   lobby: Lobby.reducer,

@@ -1,16 +1,15 @@
 import Lobby from '../lobby';
-import * as t from './actionTypes';
-
+import actionTypes from './actionTypes';
 
 export default function(state = {}, action) {
   switch (action.type) {
-    case t.CREATE_GAME: {
+    case actionTypes.CREATE_GAME: {
       return setGame(state, action.game);
     }
-    case t.JOIN_GAME: {
+    case actionTypes.JOIN_GAME: {
       return setGame(state, action.game);
     }
-    case t.CREATE_PLAYER: {
+    case actionTypes.CREATE_PLAYER: {
       return setPlayer(state, action.player);
     }
     case Lobby.actionTypes.UPDATE_PLAYER: {
@@ -25,5 +24,10 @@ export default function(state = {}, action) {
   }
 }
 
-const setGame = (state, game) => Object.assign({}, state, { game });
-const setPlayer = (state, player) => Object.assign({}, state, { player });
+function setGame(state, game) {
+  return Object.assign({}, state, { game });
+}
+
+function setPlayer(state, player) {
+  return Object.assign({}, state, { player });
+}

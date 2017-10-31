@@ -6,10 +6,10 @@
     "autoprefixer": "7.1.2",
     "axios": "^0.16.2",
     "babel-core": "6.25.0",
-    "babel-eslint": "7.2.3",
+    "babel-eslint": "^8.0.1",
     "babel-jest": "20.0.3",
     "babel-loader": "7.1.1",
-    "babel-preset-react-app": "^3.0.3",
+    "babel-preset-react-app": "^3.1.0",
     "babel-runtime": "6.26.0",
     "body-parser": "^1.18.2",
     "case-sensitive-paths-webpack-plugin": "2.1.1",
@@ -18,28 +18,34 @@
     "css-loader": "0.28.4",
     "debug": "^3.1.0",
     "dotenv": "4.0.0",
-    "eslint": "4.4.1",
+    "eslint": "^4.10.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-prettier": "^2.6.0",
     "eslint-config-react-app": "^2.0.1",
     "eslint-loader": "1.9.0",
     "eslint-plugin-flowtype": "2.35.0",
     "eslint-plugin-import": "2.7.0",
     "eslint-plugin-jsx-a11y": "5.1.1",
-    "eslint-plugin-react": "7.1.0",
+    "eslint-plugin-react": "^7.4.0",
     "express": "^4.16.2",
     "extract-text-webpack-plugin": "3.0.0",
     "file-loader": "0.11.2",
     "fs-extra": "3.0.1",
     "history": "^4.7.2",
     "html-webpack-plugin": "2.29.0",
+    "husky": "^0.14.3",
     "jest": "20.0.4",
     "knex": "^0.13.0",
+    "lint-staged": "^4.3.0",
     "material-ui": "^1.0.0-beta.17",
+    "material-ui-icons": "^1.0.0-beta.17",
     "morgan": "^1.9.0",
     "nodemon": "^1.12.1",
     "object-assign": "4.1.1",
     "pg": "^7.3.0",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",
+    "prettier": "^1.7.4",
     "promise": "8.0.1",
     "prop-types": "^15.6.0",
     "radium": "^0.19.5",
@@ -61,13 +67,21 @@
     "socket.io-client": "^2.0.3",
     "style-loader": "0.18.2",
     "sw-precache-webpack-plugin": "0.11.4",
+    "typeface-raleway": "0.0.43",
     "url-loader": "0.5.9",
     "webpack": "3.5.1",
     "webpack-dev-server": "2.8.2",
     "webpack-manifest-plugin": "1.2.1",
     "whatwg-fetch": "2.0.3"
   },
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,css}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  },
   "scripts": {
+    "precommit": "lint-staged",
     "start": "node scripts/start.js",
     "start:server": "nodemon ./server/bin/www",
     "build": "node scripts/build.js",
@@ -114,7 +128,77 @@
     ]
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "airbnb",
+      "prettier"
+    ],
+    "globals": {
+      "document": true,
+      "fetch": true,
+      "localStorage": true,
+      "navigator": true,
+      "URL": true,
+      "window": true
+    },
+    "parser": "babel-eslint",
+    "rules": {
+      "jsx-a11y/anchor-is-valid": [
+        2,
+        {
+          "components": [ "Link" ],
+          "specialLink": [ "to" ]
+        }
+      ],
+      "no-console": 0,
+      "no-param-reassign": [
+        2,
+        {
+          "props": false
+        }
+      ],
+      "no-plusplus": [
+        2,
+        {
+          "allowForLoopAfterthoughts": true
+        }
+      ],
+      "no-shadow": 0,
+      "no-use-before-define": [
+        2,
+        {
+          "functions": false,
+          "variables": false
+        }
+      ],
+      "react/forbid-prop-types": 0,
+      "react/jsx-indent-props": [
+        2,
+        2
+      ],
+      "react/jsx-filename-extension": [
+        1,
+        {
+          "extensions": [
+            ".js",
+            ".jsx"
+          ]
+        }
+      ],
+      "react/require-default-props": 0,
+      "import/extensions": [
+        1,
+        {
+          "settings": {
+            "import/ignore": [
+              "\\.(scss|less|css)$"
+            ]
+          }
+        }
+      ],
+      "import/no-named-as-default": 0,
+      "import/no-named-as-default-member": 0,
+      "import/prefer-default-export": 0
+    }
   },
   "devDependencies": {
     "enzyme": "^3.1.0",

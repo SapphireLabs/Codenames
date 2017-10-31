@@ -5,17 +5,17 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Field, reduxForm } from 'redux-form';
-import io from 'socket.io-client';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
-import * as menuActions from '../actions';
+import socket, { socketEvents } from '../../common/socket';
 import { validate } from '../../utils/menu';
+import * as menuActions from '../actions';
 
-const socket = io();
 const styles = {
-  textInput: {
-    margin: 12
+  input: {
+    margin: 12,
+    width: '100%'
   },
   button: {
     margin: 12
@@ -24,27 +24,27 @@ const styles = {
 
 export class Join extends React.Component {
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     menuActions: PropTypes.object.isRequired,
     pristine: PropTypes.bool.isRequired,
-    submitting: PropTypes.bool.isRequired,
+    submitting: PropTypes.bool.isRequired
   };
 
-  onSubmit = (formData) => {
+  onSubmit = formData => {
     // Check if access code exists
     // If it does, create a new player using that gameId
     // Else, display snackbar message showing game not found
-    this.props.menuActions.joinGameIfExists(formData)
-      .then(res => {
-        socket.emit('join game', res.accessCode);
-        localStorage.setItem('playerId', res.player.id);
-        localStorage.setItem('gameId', res.player.gameId);
-        localStorage.setItem('accessCode', res.accessCode);
-        this.props.dispatch(push(`/${res.accessCode}/lobby`));
-      })
+    this.props.menuActions.joinGameIfExists(formData).then(res => {
+      socket.emit(socketEvents.JOIN_GAME, res.accessCode);
+      localStorage.setItem('playerId', res.player.id);
+      localStorage.setItem('gameId', res.player.gameId);
+      localStorage.setItem('accessCode', res.accessCode);
+      this.props.dispatch(push(`/${res.accessCode}/lobby`));
+    });
   };
 
-  renderField = ({ input, label, type, meta: { touched, error, warning } }) => {
+  renderField = ({ input, label, meta: { touched, error } }) => {
     const props = {};
 
     if (touched && error) {
@@ -58,6 +58,7 @@ export class Join extends React.Component {
         {...input}
         label={label}
         autoComplete="off"
+        style={styles.input}
       />
     );
   };
@@ -95,11 +96,7 @@ export class Join extends React.Component {
             Join Game
           </Button>
           <Link to="/">
-            <Button
-              raised
-              color="accent"
-              style={styles.button}
-            >
+            <Button raised color="accent" style={styles.button}>
               Back
             </Button>
           </Link>
@@ -109,13 +106,15 @@ export class Join extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   dispatch,
-  menuActions: bindActionCreators(menuActions, dispatch),
+  menuActions: bindActionCreators(menuActions, dispatch)
 });
 
-export default connect(null, mapDispatchToProps)(reduxForm({
-  form: 'JoinForm',
-  touchOnChange: true,
-  validate
-})(Join));
+export default connect(null, mapDispatchToProps)(
+  reduxForm({
+    form: 'JoinForm',
+    touchOnChange: true,
+    validate
+  })(Join)
+);

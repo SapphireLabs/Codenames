@@ -1,23 +1,23 @@
 module.exports = function(io) {
   io.on('connection', (socket) => {
-    socket.on('join socket room', (accessCode) => {
+    socket.on('JOIN_SOCKET_ROOM', (accessCode) => {
       socket.join(accessCode);
     });
 
-    socket.on('join game', (accessCode) => {
-      socket.broadcast.to(accessCode).emit('join game');
+    socket.on('JOIN_GAME', (accessCode) => {
+      socket.broadcast.to(accessCode).emit('JOIN_GAME');
     })
 
-    socket.on('update player', (accessCode) => {
-      io.to(accessCode).emit('update player');
+    socket.on('UPDATE_PLAYER', (accessCode) => {
+      io.to(accessCode).emit('UPDATE_PLAYER');
     })
 
-    socket.on('toggle ready', (accessCode) => {
-      io.to(accessCode).emit('toggle ready');
+    socket.on('TOGGLE_READY', (accessCode) => {
+      io.to(accessCode).emit('TOGGLE_READY');
     })
 
-    socket.on('start game', (accessCode) => {
-      io.to(accessCode).emit('start game');
+    socket.on('START_GAME', (accessCode) => {
+      io.to(accessCode).emit('START_GAME');
     })
   });
 }
