@@ -1,4 +1,4 @@
-import * as t from './actionTypes';
+import actionTypes from './actionTypes';
 
 const initialState = {
   words: []
@@ -6,7 +6,7 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case t.GET_WORDS: {
+    case actionTypes.GET_WORDS: {
       return getWords(state, action.words);
     }
     default: {

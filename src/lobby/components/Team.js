@@ -14,11 +14,19 @@ export default class Team extends React.PureComponent {
     operatives: PropTypes.array.isRequired,
     pickRole: PropTypes.func.isRequired,
     player: PropTypes.object.isRequired,
-    spymaster: PropTypes.object,
+    spymaster: PropTypes.object
+  };
+
+  handleClickOperative = () => {
+    this.pickRole('Operative');
+  };
+
+  handleClickSpymaster = () => {
+    this.pickRole('Spymaster');
   };
 
   // Update player team and role in db, then socket emit update player list
-  pickRole = (role) => {
+  pickRole = role => {
     const { accessCode, spymaster, pickRole, player, color } = this.props;
 
     // If spymaster already exists, exit
@@ -33,8 +41,9 @@ export default class Team extends React.PureComponent {
       role
     };
 
-    pickRole(updated)
-      .then(() => { socket.emit(socketEvents.UPDATE_PLAYER, accessCode) });
+    pickRole(updated).then(() => {
+      socket.emit(socketEvents.UPDATE_PLAYER, accessCode);
+    });
   };
 
   render() {
@@ -44,31 +53,27 @@ export default class Team extends React.PureComponent {
       <Card>
         <CardHeader
           title={`Team ${color}`}
-          onClick={this.pickRole.bind(this, 'Operative')}
+          onClick={this.handleClickOperative}
         />
         <CardContent>
           <List subheader>
-            <ListSubheader
-              onClick={this.pickRole.bind(this, 'Spymaster')}
-            >
+            <ListSubheader onClick={this.handleClickSpymaster}>
               Spymaster
             </ListSubheader>
-            {spymaster
-            ? <ListItem>
+            {spymaster ? (
+              <ListItem>
                 <ListItemText primary={spymaster.name} />
               </ListItem>
-            : null}
+            ) : null}
             <Divider />
-            <ListSubheader
-              onClick={this.pickRole.bind(this, 'Operative')}
-            >
+            <ListSubheader onClick={this.handleClickOperative}>
               Operatives
             </ListSubheader>
-            {operatives.map((player, i) =>
-              <ListItem key={i}>
+            {operatives.map(player => (
+              <ListItem key={player.id}>
                 <ListItemText primary={player.name} />
               </ListItem>
-            )}
+            ))}
           </List>
         </CardContent>
       </Card>

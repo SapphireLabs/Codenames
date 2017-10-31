@@ -15,4 +15,6 @@ export default function(state = initialState, action) {
   }
 }
 
-const getPlayerList = (state, playerList) => Object.assign({}, state, { playerList });
+function getPlayerList(state, playerList) {
+  return Object.assign({}, state, { playerList });
+}

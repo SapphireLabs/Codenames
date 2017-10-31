@@ -1,1 +1,5 @@
-export const GET_WORDS = 'GET_WORDS';
+const actionTypes = {
+  GET_WORDS: 'GET_WORDS'
+};
+
+export default actionTypes;

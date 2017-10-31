@@ -1,7 +1,6 @@
 import Lobby from '../lobby';
 import actionTypes from './actionTypes';
 
-
 export default function(state = {}, action) {
   switch (action.type) {
     case actionTypes.CREATE_GAME: {
@@ -25,5 +24,10 @@ export default function(state = {}, action) {
   }
 }
 
-const setGame = (state, game) => Object.assign({}, state, { game });
-const setPlayer = (state, player) => Object.assign({}, state, { player });
+function setGame(state, game) {
+  return Object.assign({}, state, { game });
+}
+
+function setPlayer(state, player) {
+  return Object.assign({}, state, { player });
+}

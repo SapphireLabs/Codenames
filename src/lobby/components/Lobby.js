@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
@@ -23,56 +24,55 @@ const styles = {
 };
 
 export class Lobby extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.accessCode = this.props.match.params.accessCode;
-    this._refreshPlayerList = this._refreshPlayerList.bind(this);
-    this._refreshGame = this._refreshGame.bind(this);
-  }
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    game: PropTypes.object.isRequired,
+    lobbyActions: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
+    player: PropTypes.object.isRequired,
+    teams: PropTypes.object.isRequired
+  };
 
   componentDidMount() {
-    this._refreshGame();
-    this._refreshPlayerList();
-    socket.emit(socketEvents.JOIN_SOCKET_ROOM, this.accessCode);
-    socket.on(socketEvents.JOIN_GAME, this._refreshPlayerList);
-    socket.on(socketEvents.UPDATE_PLAYER, this._refreshPlayerList);
+    const { dispatch, match } = this.props;
+
+    this.refreshGame();
+    this.refreshPlayerList();
+    socket.emit(socketEvents.JOIN_SOCKET_ROOM, match.params.accessCode);
+    socket.on(socketEvents.JOIN_GAME, this.refreshPlayerList);
+    socket.on(socketEvents.UPDATE_PLAYER, this.refreshPlayerList);
     socket.on(socketEvents.TOGGLE_READY, () => {
-      this._refreshPlayerList();
-      this._refreshGame();
+      this.refreshPlayerList();
+      this.refreshGame();
     });
     socket.on(socketEvents.START_GAME, () => {
-      this.props.dispatch(push(`/${this.accessCode}/game`));
+      dispatch(push(`/${match.params.accessCode}/game`));
     });
   }
 
-  _refreshPlayerList() {
-    const { game } = this.props;
+  refreshPlayerList = () => {
+    const { game, lobbyActions } = this.props;
 
     if (game) {
-      this.props.lobbyActions.getPlayerList(game.id);
+      lobbyActions.getPlayerList(game.id);
     } else {
-      this.props.lobbyActions.getPlayerList(localStorage.getItem('gameId'));
+      lobbyActions.getPlayerList(localStorage.getItem('gameId'));
     }
-  }
+  };
 
-  _refreshGame() {
-    this.props.lobbyActions.getGame(this.accessCode);
-  }
+  refreshGame = () => {
+    const { lobbyActions, match } = this.props;
+
+    lobbyActions.getGame(match.params.accessCode);
+  };
 
   render() {
-    const {
-      game,
-      lobbyActions,
-      player,
-      teams,
-    } = this.props;
+    const { game, lobbyActions, match, player, teams } = this.props;
+    const { accessCode } = match.params;
 
     return (
       <section style={styles.container}>
-        <Header
-          accessCode={this.accessCode}
-        />
+        <Header accessCode={accessCode} />
         <div className="row around-xs">
           <div className="col-xs-3">
             <Team
@@ -80,7 +80,7 @@ export class Lobby extends React.Component {
               spymaster={teams.redSpymaster}
               operatives={teams.redOperatives}
               player={player}
-              accessCode={this.accessCode}
+              accessCode={accessCode}
               pickRole={lobbyActions.pickRole}
             />
           </div>
@@ -90,7 +90,7 @@ export class Lobby extends React.Component {
               spymaster={teams.blueSpymaster}
               operatives={teams.blueOperatives}
               player={player}
-              accessCode={this.accessCode}
+              accessCode={accessCode}
               pickRole={lobbyActions.pickRole}
             />
           </div>
@@ -98,7 +98,7 @@ export class Lobby extends React.Component {
             <Unassigned
               playerList={teams.unassigned}
               player={player}
-              accessCode={this.accessCode}
+              accessCode={accessCode}
               pickRole={lobbyActions.pickRole}
             />
           </div>
@@ -107,7 +107,7 @@ export class Lobby extends React.Component {
           <Options
             game={game}
             player={player}
-            accessCode={this.accessCode}
+            accessCode={accessCode}
             readyPlayer={lobbyActions.readyPlayer}
             unreadyPlayer={lobbyActions.unreadyPlayer}
             startGame={lobbyActions.startGame}
@@ -126,7 +126,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   dispatch,
-  lobbyActions: bindActionCreators(lobbyActions, dispatch),
-})
+  lobbyActions: bindActionCreators(lobbyActions, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Lobby);

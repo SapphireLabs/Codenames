@@ -20,43 +20,37 @@ const history = createHistory();
 // Build middleware for intercepting and dispatching navigation actions
 const ReduxRouter = routerMiddleware(history);
 
-const middleware = [
-  ReduxPromise,
-  ReduxThunk,
-  ReduxRouter,
-];
+const middleware = [ReduxPromise, ReduxThunk, ReduxRouter];
 
 if (process.env.NODE_ENV === 'development') middleware.push(ReduxLogger);
 
 // Configure redux store and apply middleware
-const store = createStore(
-  rootReducer,
-  applyMiddleware(...middleware)
-);
+const store = createStore(rootReducer, applyMiddleware(...middleware));
 
-const theme = (outerTheme) =>
+const theme = () =>
   createMuiTheme({
     typography: {
-      fontFamily: 'raleway, Roboto, sans-serif',
-    },
+      fontFamily: 'raleway, Roboto, sans-serif'
+    }
   });
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <MuiThemeProvider theme={theme}>
-        <Provider store={store}>
-          <ConnectedRouter history={history}>
-            <div className="main">
-              <Switch>
-                <Route path="/:accessCode/lobby" component={Lobby.components.Lobby} />
-                <Route path="/:accessCode/game" component={Game.components.Game} />
-                <Route path="/" component={Menu.components.Menu} />
-              </Switch>
-            </div>
-          </ConnectedRouter>
-        </Provider>
-      </MuiThemeProvider>
-    );
-  }
-}
+const App = () => (
+  <MuiThemeProvider theme={theme}>
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <div className="main">
+          <Switch>
+            <Route
+              path="/:accessCode/lobby"
+              component={Lobby.components.Lobby}
+            />
+            <Route path="/:accessCode/game" component={Game.components.Game} />
+            <Route path="/" component={Menu.components.Menu} />
+          </Switch>
+        </div>
+      </ConnectedRouter>
+    </Provider>
+  </MuiThemeProvider>
+);
+
+export default App;

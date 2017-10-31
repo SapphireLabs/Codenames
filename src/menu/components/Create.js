@@ -14,7 +14,7 @@ import { validate } from '../../utils/menu';
 const styles = {
   input: {
     margin: 15,
-    width: '100%',
+    width: '100%'
   },
   button: {
     margin: 15
@@ -23,26 +23,26 @@ const styles = {
 
 export class Create extends React.Component {
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     menuActions: PropTypes.object.isRequired,
     pristine: PropTypes.bool.isRequired,
-    submitting: PropTypes.bool.isRequired,
+    submitting: PropTypes.bool.isRequired
   };
 
-  onSubmit = (formData) => {
+  onSubmit = formData => {
     // Create new access code and insert new game in db
     // Insert new player associated with that game
     // Redirect to lobby for that access code
-    this.props.menuActions.createGameAndPlayer(formData)
-      .then(res => {
-        localStorage.setItem('playerId', res.player.id);
-        localStorage.setItem('gameId', res.player.gameId);
-        localStorage.setItem('accessCode', res.accessCode);
-        this.props.dispatch(push(`/${res.accessCode}/lobby`));
-      });
+    this.props.menuActions.createGameAndPlayer(formData).then(res => {
+      localStorage.setItem('playerId', res.player.id);
+      localStorage.setItem('gameId', res.player.gameId);
+      localStorage.setItem('accessCode', res.accessCode);
+      this.props.dispatch(push(`/${res.accessCode}/lobby`));
+    });
   };
 
-  renderField = ({ input, label, type, meta: { touched, error, warning } }) => {
+  renderField = ({ input, label, meta: { touched, error } }) => {
     const props = {};
 
     if (touched && error) {
@@ -86,11 +86,7 @@ export class Create extends React.Component {
             Create Game
           </Button>
           <Link to="/">
-            <Button
-              raised
-              color="accent"
-              style={styles.button}
-            >
+            <Button raised color="accent" style={styles.button}>
               Back
             </Button>
           </Link>
@@ -100,13 +96,15 @@ export class Create extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   dispatch,
-  menuActions: bindActionCreators(menuActions, dispatch),
+  menuActions: bindActionCreators(menuActions, dispatch)
 });
 
-export default connect(null, mapDispatchToProps)(reduxForm({
-  form: 'CreateForm',
-  touchOnChange: true,
-  validate
-})(Create));
+export default connect(null, mapDispatchToProps)(
+  reduxForm({
+    form: 'CreateForm',
+    touchOnChange: true,
+    validate
+  })(Create)
+);

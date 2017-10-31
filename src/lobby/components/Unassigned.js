@@ -10,7 +10,8 @@ export default class Unassigned extends React.PureComponent {
     accessCode: PropTypes.string.isRequired,
     pickRole: PropTypes.func.isRequired,
     player: PropTypes.object.isRequired,
-  }
+    playerList: PropTypes.array.isRequired
+  };
 
   // Unassign team and role in db, then socket emit update player list
   unpick = () => {
@@ -26,24 +27,22 @@ export default class Unassigned extends React.PureComponent {
       role: null
     };
 
-    pickRole(updated)
-      .then(() => { socket.emit(socketEvents.UPDATE_PLAYER, accessCode) });
+    pickRole(updated).then(() => {
+      socket.emit(socketEvents.UPDATE_PLAYER, accessCode);
+    });
   };
 
   render() {
     return (
       <Card>
-        <CardHeader
-          title="Unassigned Operatives"
-          onClick={this.unpick}
-        />
+        <CardHeader title="Unassigned Operatives" onClick={this.unpick} />
         <CardContent>
           <List>
-            {this.props.playerList.map((player, i) =>
-              <ListItem key={i}>
+            {this.props.playerList.map(player => (
+              <ListItem key={player.id}>
                 <ListItemText primary={player.name} />
               </ListItem>
-            )}
+            ))}
           </List>
         </CardContent>
       </Card>
