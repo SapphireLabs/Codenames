@@ -9,10 +9,10 @@ import io from 'socket.io-client';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
-import * as menuActions from '../actions';
+import socket from '../../common/socket';
 import { validate } from '../../utils/menu';
+import * as menuActions from '../actions';
 
-const socket = io();
 const styles = {
   input: {
     margin: 12,

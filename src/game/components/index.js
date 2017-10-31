@@ -1,12 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import io from 'socket.io-client';
 
+import socket from '../../common/socket';
 import * as actions from '../actions';
 import Board from './Board';
 
-
-const socket = io();
 const styles = {
   wrapper: {
     display: 'flex',

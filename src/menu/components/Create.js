@@ -5,7 +5,6 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Field, reduxForm } from 'redux-form';
-import io from 'socket.io-client';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 

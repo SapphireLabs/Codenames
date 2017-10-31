@@ -4,6 +4,7 @@ import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import io from 'socket.io-client';
 
+import socket from '../../common/socket';
 import * as lobbyActions from '../actions';
 import { teamSelector } from '../selectors';
 import Header from './Header';
@@ -11,7 +12,6 @@ import Team from './Team';
 import Unassigned from './Unassigned';
 import Options from './Options';
 
-const socket = io();
 const styles = {
   container: {
     height: '100%',
