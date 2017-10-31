@@ -1,6 +1,8 @@
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:3001');
+const socket = process.env.NODE_ENV === 'development' ?
+  io('http://localhost:3001') :
+  io();
 
 export const socketEvents = {
   JOIN_SOCKET_ROOM: 'JOIN_SOCKET_ROOM',

@@ -2,11 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import Button from 'material-ui/Button';
 
 import socket, { socketEvents } from '../../common/socket';
-import * as actions from '../actions';
 
 const styles = {
   button: {
@@ -58,7 +56,7 @@ export class Options extends React.PureComponent {
   };
 
   render() {
-    const { game, player } = this.props;
+    const { player } = this.props;
 
     // start game enabled for dev
     // disabled={game.status === 'waiting'}
