@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Field, reduxForm } from 'redux-form';
@@ -23,7 +22,6 @@ const styles = {
 
 export class Create extends React.Component {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     menuActions: PropTypes.object.isRequired,
     pristine: PropTypes.bool.isRequired,
@@ -34,12 +32,13 @@ export class Create extends React.Component {
     // Create new access code and insert new game in db
     // Insert new player associated with that game
     // Redirect to lobby for that access code
-    this.props.menuActions.createGameAndPlayer(formData).then(res => {
-      localStorage.setItem('playerId', res.player.id);
-      localStorage.setItem('gameId', res.player.gameId);
-      localStorage.setItem('accessCode', res.accessCode);
-      this.props.dispatch(push(`/${res.accessCode}/lobby`));
-    });
+    // this.props.menuActions.createGameAndPlayer(formData).then(res => {
+    //   localStorage.setItem('playerId', res.player.id);
+    //   localStorage.setItem('gameId', res.player.gameId);
+    //   localStorage.setItem('accessCode', res.accessCode);
+    //   this.props.dispatch(push(`/${res.accessCode}/lobby`));
+    // });
+    this.props.menuActions.createGameAndPlayer(formData.name);
   };
 
   renderField = ({ input, label, meta: { touched, error } }) => {
@@ -97,7 +96,6 @@ export class Create extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  dispatch,
   menuActions: bindActionCreators(menuActions, dispatch)
 });
 

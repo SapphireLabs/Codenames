@@ -1,78 +1,87 @@
-import axios from 'axios';
-
 import actionTypes from './actionTypes';
-import { generateAccessCode } from '../utils/menu';
-
-// create game, then create player in that game using created gameId
-export const createGameAndPlayer = formData => dispatch =>
-  dispatch(createGame()).then(res =>
-    dispatch(createPlayer(res.game, formData.name, true))
-  );
-
-// if game exists, create player using that gameId
-// else, dispatch game not found
-export const joinGameIfExists = formData => dispatch =>
-  axios.get(`/api/games/${formData.accessCode}`).then(res => {
-    const game = res.data[0];
-
-    if (game) {
-      dispatch(joinGame(game));
-      return dispatch(createPlayer(game, formData.name, false));
-    }
-
-    throw new Error(`Game not found with access code ${formData.accessCode}`);
-  });
 
 /**
- * Generates an access code not in use, and creates game using it
+ * Action to trigger create game and player epic
  *
- * @return {Promise}
+ * @param  {string} name
+ * @return {Object} action
  */
-const createGame = () => async dispatch => {
-  let accessCode = generateAccessCode();
-
-  try {
-    const { data: games } = await axios.get(`/api/games`);
-    const accessCodesInUse = new Set(games.map(game => game.accessCode));
-
-    while (accessCodesInUse.has(accessCode)) {
-      accessCode = generateAccessCode();
-    }
-
-    const { data: newGames } = await axios.post(`/api/games/${accessCode}`);
-
-    return dispatch(createGameSuccess(newGames[0]));
-  } catch (err) {
-    throw new Error(`Error attempting to create new game: ${err}`);
-  }
-};
-
-// create player in given gameId
-const createPlayer = (game, name, host) =>
-  axios.post(`api/players/${game.id}`, { name, host }).then(res => ({
-    type: actionTypes.CREATE_PLAYER,
-    player: res.data[0],
-    accessCode: game.accessCode
-  }));
+export const createGameAndPlayer = name => ({
+  type: actionTypes.CREATE_GAME_AND_PLAYER,
+  name
+});
 
 /**
- * Action creator with payload of game object that was joined
+ * Action to trigger get games epic
+ *
+ * @return {Object} action
+ */
+export const getGames = () => ({
+  type: actionTypes.GET_GAMES
+});
+
+/**
+ * Action to trigger create game epic
+ *
+ * @return {Object} action
+ */
+export const createGame = () => ({
+  type: actionTypes.CREATE_GAME
+});
+
+/**
+ * Action to trigger create player epic
+ *
+ * @param  {string} name
+ * @param  {boolean} isHost
+ * @return {Object} action
+ */
+export const createPlayer = (name, isHost) => ({
+  type: actionTypes.CREATE_PLAYER,
+  name,
+  isHost
+});
+
+/**
+ * Action to set current game object in state
  *
  * @param  {Object} game
- * @return {Object}
+ * @return {Object} action
  */
-const joinGame = game => ({
-  type: actionTypes.JOIN_GAME,
+export const setGame = game => ({
+  type: actionTypes.SET_GAME,
   game
 });
 
 /**
- * Action creator with payload of game object that was created
+ * Action to set games array in state
  *
- * @param  {Object} game
- * @return {Object}
+ * @param  {Array} games
+ * @return {Object} action
  */
-const createGameSuccess = game => ({
-  type: actionTypes.CREATE_GAME,
-  game
+export const setGames = games => ({
+  type: actionTypes.SET_GAMES,
+  games
+});
+
+/**
+ * Action to set current player object in state
+ *
+ * @param  {Object} player
+ * @return {Object} action
+ */
+export const setPlayer = player => ({
+  type: actionTypes.SET_PLAYER,
+  player
+});
+
+/**
+ * Action to set error object in state
+ *
+ * @param  {Object} error
+ * @return {Object} action
+ */
+export const setError = error => ({
+  type: actionTypes.SET_ERROR,
+  error
 });
