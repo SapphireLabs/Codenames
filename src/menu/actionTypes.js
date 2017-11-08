@@ -6,7 +6,6 @@ const actionTypes = {
   GET_GAMES: 'GET_GAMES',
   JOIN_GAME: 'JOIN_GAME',
   SET_GAME: 'SET_GAME',
-  SET_GAMES: 'SET_GAMES',
   SET_PLAYER: 'SET_PLAYER',
   SET_ERROR: 'SET_ERROR'
 };

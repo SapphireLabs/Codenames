@@ -12,15 +12,6 @@ export const createGameAndPlayer = name => ({
 });
 
 /**
- * Action to trigger get games epic
- *
- * @return {Object} action
- */
-export const getGames = () => ({
-  type: actionTypes.GET_GAMES
-});
-
-/**
  * Action to trigger create game epic
  *
  * @return {Object} action
@@ -51,17 +42,6 @@ export const createPlayer = (name, isHost) => ({
 export const setGame = game => ({
   type: actionTypes.SET_GAME,
   game
-});
-
-/**
- * Action to set games array in state
- *
- * @param  {Array} games
- * @return {Object} action
- */
-export const setGames = games => ({
-  type: actionTypes.SET_GAMES,
-  games
 });
 
 /**

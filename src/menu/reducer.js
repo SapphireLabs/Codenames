@@ -7,8 +7,6 @@ export default function(state = {}, action) {
       return { ...state, error: action.error };
     case actionTypes.SET_GAME:
       return { ...state, game: action.game };
-    case actionTypes.SET_GAMES:
-      return { ...state, games: action.games };
     case actionTypes.SET_PLAYER:
       return { ...state, player: action.player };
     case Lobby.actionTypes.UPDATE_GAME:

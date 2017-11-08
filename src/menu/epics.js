@@ -1,14 +1,13 @@
 import { Observable } from 'rxjs';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/mergeMap';
+import { push } from 'react-router-redux';
 
-import utils from '../utils';
 import * as menuActions from './actions';
 import actionTypes from './actionTypes';
 
 /**
- * Gets games, creates game, creates player as host in sequence and then
- * redirects to lobby
+ * Triggered on create game and player action
+ * Listens for completion of create game and player epics
+ * Then redirects to lobby
  *
  * @param {Observable<Action>} action$
  * @param {Store} store
@@ -16,28 +15,20 @@ import actionTypes from './actionTypes';
  * @return {Observable<Action>}
  */
 export const createGameAndPlayerEpic = action$ =>
-  action$
-    .ofType(actionTypes.CREATE_GAME_AND_PLAYER)
-    .mergeMap(() => Observable.of(menuActions.getGames()));
-
-/**
- * Gets list of games
- *
- * @param {Observable<Action>} action$
- * @param {Store} store
- * @param {Object} api
- * @return {Observable<Action>}
- */
-export const getGamesEpic = (action$, store, { api }) =>
-  action$.ofType(actionTypes.GET_GAMES).mergeMap(() =>
-    api
-      .getGames()
-      .map(({ response: games }) => menuActions.setGames(games))
-      .catch(err => menuActions.setError(err))
+  action$.ofType(actionTypes.CREATE_GAME_AND_PLAYER).switchMap(
+    () =>
+      Observable.zip(
+        action$.ofType(actionTypes.SET_GAME),
+        action$.ofType(actionTypes.SET_PLAYER)
+      )
+        .switchMap(([action]) =>
+          Observable.of(push(`/${action.game.accessCode}/lobby`))
+        )
+        .startWith(menuActions.createGame()) // Kick off sequence
   );
 
 /**
- * Generates an access code not in use, and creates game using it
+ * Creates a game and save in state
  *
  * @param {Observable<Action>} action$
  * @param {Store} store
@@ -45,46 +36,31 @@ export const getGamesEpic = (action$, store, { api }) =>
  * @return {Observable<Action>}
  */
 export const createGameEpic = (action$, store, { api }) =>
-  action$
-    .ofType(actionTypes.CREATE_GAME_AND_PLAYER)
-    .zip(action$.ofType(actionTypes.SET_GAMES))
-    .take(1)
-    .mergeMap(action => {
-      console.log(action);
-      const accessCodesInUse = new Set(action.games.map(g => g.accessCode));
-      let accessCode = utils.generateAccessCode();
-
-      while (accessCodesInUse.has(accessCode)) {
-        accessCode = utils.generateAccessCode();
-      }
-
-      return api
-        .createGame(accessCode)
-        .map(({ response: games }) => menuActions.setGame(games[0]))
-        .catch(err => menuActions.setError(err));
-    });
+  action$.ofType(actionTypes.CREATE_GAME).switchMap(() =>
+    api
+      .createGame()
+      .map(({ response: games }) => menuActions.setGame(games[0]))
+      .catch(err => menuActions.setError(err))
+  );
 
 /**
- * Create a new player for a given gameId, name, and isHost
+ * Creates a host player for a new game
  *
  * @param {Observable<Action>} action$
  * @param {Store} store
  * @param {Object} api
  * @return {Observable<Action>}
  */
-export const createPlayerEpic = (action$, store, { api }) =>
-  action$
-    .ofType(actionTypes.CREATE_GAME_AND_PLAYER)
-    .zip(action$.ofType(actionTypes.SET_GAME))
-    .take(1)
-    .mergeMap(action => {
-      const { game } = store.getState().menu;
-
-      return api
-        .createPlayer(game.id, action.name, action.isHost)
-        .map(({ response: players }) => menuActions.setPlayer(players[0]))
-        .catch(err => Observable.of(menuActions.setError(err)));
-    });
+export const createHostPlayerEpic = (action$, store, { api }) =>
+  Observable.zip(
+    action$.ofType(actionTypes.CREATE_GAME_AND_PLAYER),
+    action$.ofType(actionTypes.SET_GAME)
+  ).mergeMap(([a1, a2]) =>
+    api
+      .createPlayer(a2.game.id, a1.name, true)
+      .map(({ response: players }) => menuActions.setPlayer(players[0]))
+      .catch(err => Observable.of(menuActions.setError(err)))
+  );
 
 // if game exists, create player using that gameId
 // else, dispatch game not found
