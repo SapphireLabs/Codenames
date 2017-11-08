@@ -6,13 +6,6 @@ describe('Utility functions - menu', () => {
     'Please enter an alphanumeric name shorter than 15 characters';
   const ACCESS_CODE_ERROR = 'Please enter a valid access code';
 
-  it('should generate a random 4 letter access code', () => {
-    const accessCode = menu.generateAccessCode();
-
-    expect(accessCode.length).toBe(4);
-    expect(accessCode).toEqual(expect.stringMatching(/[a-z]{4}/));
-  });
-
   describe('validate form inputs', () => {
     it('should check that a name is given', () => {
       let values = {};
