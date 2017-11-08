@@ -25,6 +25,17 @@ export const joinGame = (accessCode, name) => ({
 });
 
 /**
+ * Action to trigger find game epic
+ *
+ * @param  {string} accessCode
+ * @return {Object} action
+ */
+export const findGame = accessCode => ({
+  type: actionTypes.FIND_GAME,
+  accessCode
+});
+
+/**
  * Action to trigger create game epic
  *
  * @return {Object} action
