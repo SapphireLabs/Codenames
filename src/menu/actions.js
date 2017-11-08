@@ -12,6 +12,19 @@ export const createGameAndPlayer = name => ({
 });
 
 /**
+ * Action to trigger join game epic
+ *
+ * @param  {string} accessCode
+ * @param  {string} name
+ * @return {Object} action
+ */
+export const joinGame = (accessCode, name) => ({
+  type: actionTypes.JOIN_GAME,
+  accessCode,
+  name
+});
+
+/**
  * Action to trigger create game epic
  *
  * @return {Object} action

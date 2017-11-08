@@ -8,7 +8,19 @@ import { ajax } from 'rxjs/observable/dom/ajax';
 export const getGames = () =>
   ajax({
     url: '/api/games',
-    method: 'GeT'
+    method: 'GET'
+  });
+
+/**
+ * GET game by accessCode
+ *
+ * @param  {string} accessCode
+ * @return {Observable<AjaxResponse>}
+ */
+export const getGameByAccessCode = accessCode =>
+  ajax({
+    url: `/api/games/${accessCode}`,
+    method: 'GET'
   });
 
 /**

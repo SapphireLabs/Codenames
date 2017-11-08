@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Field, reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
-import socket, { socketEvents } from '../../common/socket';
 import { validate } from '../../utils/menu';
 import * as menuActions from '../actions';
 
@@ -35,13 +33,8 @@ export class Join extends React.Component {
     // Check if access code exists
     // If it does, create a new player using that gameId
     // Else, display snackbar message showing game not found
-    this.props.menuActions.joinGameIfExists(formData).then(res => {
-      socket.emit(socketEvents.JOIN_GAME, res.accessCode);
-      localStorage.setItem('playerId', res.player.id);
-      localStorage.setItem('gameId', res.player.gameId);
-      localStorage.setItem('accessCode', res.accessCode);
-      this.props.dispatch(push(`/${res.accessCode}/lobby`));
-    });
+    this.props.menuActions.joinGame(formData.accessCode, formData.name);
+    // socket.emit(socketEvents.JOIN_GAME, res.accessCode);
   };
 
   renderField = ({ input, label, meta: { touched, error } }) => {

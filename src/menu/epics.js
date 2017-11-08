@@ -28,6 +28,29 @@ export const createGameAndPlayerEpic = action$ =>
   );
 
 /**
+ * Triggered on join game action
+ * Listens for completion of get game and create player epics
+ * Then redirects to lobby
+ *
+ * @param {Observable<Action>} action$
+ * @param {Store} store
+ * @param {Object} api
+ * @return {Observable<Action>}
+ */
+export const joinGameEpic = action$ =>
+  action$.ofType(actionTypes.JOIN_GAME).switchMap(
+    () =>
+      Observable.zip(
+        action$.ofType(actionTypes.SET_GAME),
+        action$.ofType(actionTypes.SET_PLAYER)
+      )
+        .switchMap(([action]) =>
+          Observable.of(push(`/${action.game.accessCode}/lobby`))
+        )
+        .startWith(menuActions.joinGame()) // Kick off sequence
+  );
+
+/**
  * Creates a game and save in state
  *
  * @param {Observable<Action>} action$
