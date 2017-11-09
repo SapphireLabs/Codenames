@@ -69,7 +69,15 @@ export const findGameEpic = (action$, store, { api }) =>
     api
       .getGameByAccessCode(action.accessCode)
       .map(({ response: games }) => menuActions.setGame(games[0], false))
-      .catch(err => menuActions.setError(err))
+      .catch(err =>
+        Observable.of(
+          menuActions.setError(
+            new Error(
+              `Failed to find game with access code "${action.accessCode}"`
+            )
+          )
+        )
+      )
   );
 
 /**
@@ -85,7 +93,7 @@ export const createGameEpic = (action$, store, { api }) =>
     api
       .createGame()
       .map(({ response: games }) => menuActions.setGame(games[0], true))
-      .catch(err => menuActions.setError(err))
+      .catch(err => Observable.of(menuActions.setError(err)))
   );
 
 /**
