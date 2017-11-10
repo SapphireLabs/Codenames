@@ -45,7 +45,7 @@
     "pg": "^7.3.0",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",
-    "prettier": "^1.7.4",
+    "prettier": "^1.8.1",
     "promise": "8.0.1",
     "prop-types": "^15.6.0",
     "radium": "^0.19.5",
@@ -57,11 +57,13 @@
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.6",
     "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2",
     "redux-form": "^7.1.1",
-    "redux-logger": "^3.0.6",
+    "redux-observable": "^0.17.0",
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
+    "rxjs": "^5.5.2",
     "serve-favicon": "^2.4.5",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
@@ -90,15 +92,16 @@
   "proxy": "http://express:3001",
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
+      "src/**/*.{js,jsx}",
+      "server/**/*.js"
     ],
     "setupFiles": [
       "<rootDir>/config/polyfills.js",
       "<rootDir>/config/setupTests.js"
     ],
     "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.js?(x)",
-      "<rootDir>/src/**/?(*.)(spec|test).js?(x)"
+      "<rootDir>/**/__tests__/**/*.js?(x)",
+      "<rootDir>/**/?(*.)(spec|test).js?(x)"
     ],
     "testEnvironment": "node",
     "testURL": "http://localhost",
@@ -145,8 +148,12 @@
       "jsx-a11y/anchor-is-valid": [
         2,
         {
-          "components": [ "Link" ],
-          "specialLink": [ "to" ]
+          "components": [
+            "Link"
+          ],
+          "specialLink": [
+            "to"
+          ]
         }
       ],
       "no-console": 0,

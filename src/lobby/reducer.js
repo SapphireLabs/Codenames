@@ -7,14 +7,10 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case actionTypes.GET_PLAYER_LIST: {
-      return getPlayerList(state, action.playerList);
+      return { ...state, playerList: action.playerList };
     }
     default: {
       return state;
     }
   }
-}
-
-function getPlayerList(state, playerList) {
-  return Object.assign({}, state, { playerList });
 }

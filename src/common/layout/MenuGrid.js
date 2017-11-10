@@ -17,9 +17,9 @@ const MenuGrid = props => (
     justify="center"
     className={props.classes.root}
   >
-    <Grid item xs={6}>
+    <Grid item xs={12}>
       <Grid container direction="column" alignItems="center" justify="center">
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           {props.children}
         </Grid>
       </Grid>
