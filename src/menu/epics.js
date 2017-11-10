@@ -68,16 +68,8 @@ export const findGameEpic = (action$, store, { api }) =>
   action$.ofType(actionTypes.FIND_GAME).switchMap(action =>
     api
       .getGameByAccessCode(action.accessCode)
-      .map(({ response: games }) => menuActions.setGame(games[0], false))
-      .catch(err =>
-        Observable.of(
-          menuActions.setError(
-            new Error(
-              `Failed to find game with access code "${action.accessCode}"`
-            )
-          )
-        )
-      )
+      .map(({ response: game }) => menuActions.setGame(game))
+      .catch(err => Observable.of(menuActions.setError(err)))
   );
 
 /**
@@ -92,13 +84,14 @@ export const createGameEpic = (action$, store, { api }) =>
   action$.ofType(actionTypes.CREATE_GAME).switchMap(() =>
     api
       .createGame()
-      .map(({ response: games }) => menuActions.setGame(games[0], true))
+      .map(({ response: game }) => menuActions.setGame(game))
       .catch(err => Observable.of(menuActions.setError(err)))
   );
 
 /**
- * Listens for
- * Creates a player for a given game, host player if new game
+ * Listens for create game and player or join game actions
+ * Then waits for set game action
+ * Then creates a player for that game, host player if new game
  *
  * @param {Observable<Action>} action$
  * @param {Store} store
@@ -106,10 +99,8 @@ export const createGameEpic = (action$, store, { api }) =>
  * @return {Observable<Action>}
  */
 export const createPlayerEpic = (action$, store, { api }) =>
-  Observable.race(
-    action$.ofType(actionTypes.CREATE_GAME_AND_PLAYER),
-    action$.ofType(actionTypes.JOIN_GAME)
-  )
+  action$
+    .ofType(actionTypes.CREATE_GAME_AND_PLAYER, actionTypes.JOIN_GAME)
     .zip(action$.ofType(actionTypes.SET_GAME))
     .take(1)
     .mergeMap(([a1, a2]) =>
@@ -119,6 +110,6 @@ export const createPlayerEpic = (action$, store, { api }) =>
           a1.name,
           a1.type === actionTypes.CREATE_GAME_AND_PLAYER
         )
-        .map(({ response: players }) => menuActions.setPlayer(players[0]))
+        .map(({ response: player }) => menuActions.setPlayer(player))
         .catch(err => Observable.of(menuActions.setError(err)))
     );
