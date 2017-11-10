@@ -25,18 +25,28 @@ router.post('/', async (req, res, next) => {
       accessCode = gameUtils.generateAccessCode();
     }
 
-    const newGame = { accessCode, status: 'waiting' };
-
     // Create new game
-    utils.queryHandler(Game.create, newGame, req, res, next);
+    const newGame = await Game.create({ accessCode, status: 'waiting' });
+
+    res.status(201).json(newGame[0]);
   } catch (err) {
     next(err);
   }
 });
 
 // GET game by accessCode
-router.get('/:code', (req, res, next) => {
-  utils.queryHandler(Game.getGameByAccessCode, req.params.code, req, res, next);
+router.get('/:code', async (req, res, next) => {
+  try {
+    const games = await Game.getGameByAccessCode(req.params.code);
+
+    if (games.length) {
+      res.status(200).json(games[0]);
+    } else {
+      res.status(400).send({ error: `Game does not exist with access code "${req.params.code}"` });
+    }
+  } catch (err) {
+    next(err);
+  }
 });
 
 // UPDATE game
