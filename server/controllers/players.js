@@ -5,15 +5,21 @@ const Player = require('../models/player');
 const utils = require('./utils')
 
 // INSERT new player
-router.post('/', (req, res, next) => {
-  const newPlayer = {
+router.post('/', async (req, res, next) => {
+  const player = {
     gameId: req.body.gameId,
     name: req.body.name,
     host: req.body.host,
     status: 'waiting'
   };
 
-  utils.queryHandler(Player.create, newPlayer, req, res, next);
+  try {
+    const newPlayer = await Player.create(player);
+
+    res.status(201).json(newPlayer[0]);
+  } catch (err) {
+    next(err);
+  }
 });
 
 // GET player by id
