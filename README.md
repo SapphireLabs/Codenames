@@ -1,11 +1,11 @@
 ## Table of Contents
 - [File Structure](#file-structure)
 - [Reactive Programming with RxJS and redux-observable](#reactive-programming-with-rxjs-and-redux-observable)
-- [React/Redux Libraries](#react-redux-libraries)
+- [React/Redux Libraries](#reactredux-libraries)
 - [Testing](#testing)
 - [Useful Links](#useful-links)
-- [Setting Up Apricot with Node Server (local development)](#setting-up-apricot-with-node-server-local-development)
-- [Running Node/NPM Commands](#running-node-npm-commands)
+- [Getting Started](#getting-started)
+- [Running Node/NPM Commands](#running-nodenpm-commands)
 
 ## File Structure
 Organize by feature, create strict module boundaries, and avoid circular dependencies
@@ -49,8 +49,9 @@ See [rxjs](docs/rxjs.md) docs.
 ```
 docker-compose up
 ```
+Navigate to http://localhost:3000/
 
-### Running Node / NPM Commands
+### Running Node/NPM Commands
 It's best to use Docker when running commands (instead of a local version).
 Basically all that needs to be done is prepend whatever command you want with the following:
 ```
