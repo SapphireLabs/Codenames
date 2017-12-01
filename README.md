@@ -55,17 +55,17 @@ Navigate to http://localhost:3000/
 It's best to use Docker when running commands (instead of a local version).
 Basically all that needs to be done is prepend whatever command you want with the following:
 ```
-docker-compose exec node
+docker-compose exec react
 ```
 then together:
 ```
-docker-compose exec node npm install
+docker-compose exec react npm install
 or
-docker-compose exec node npm run test
+docker-compose exec react npm run test
 ```
 
 If for whatever reason the node service cannot start but you need to run a command then use _run_.
 ```
-docker-compose run node npm install
+docker-compose run react npm install
 ```
 > Use this sparingly as it creates another instance of this container instead of executing a command in an existing instance.
