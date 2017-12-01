@@ -1,7 +1,9 @@
-import * as menu from './menu';
+import * as game from './game';
+import * as player from './player';
 
 const api = {
-  ...menu
+  ...game,
+  ...player
 };
 
 export default api;
