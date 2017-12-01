@@ -53,7 +53,7 @@ export const joinGameEpic = action$ =>
           socket.emit(socketEvents.JOIN_GAME, action.accessCode);
           return Observable.of(push(`/${action.accessCode}/lobby`));
         })
-        .startWith(menuActions.findGame(action.accessCode)) // Kick off sequence
+        .startWith(menuActions.getGame(action.accessCode)) // Kick off sequence
   );
 
 /**
@@ -64,8 +64,8 @@ export const joinGameEpic = action$ =>
  * @param {Object} api
  * @return {Observable<Action>}
  */
-export const findGameEpic = (action$, store, { api }) =>
-  action$.ofType(actionTypes.FIND_GAME).switchMap(action =>
+export const getGameEpic = (action$, store, { api }) =>
+  action$.ofType(actionTypes.GET_GAME).switchMap(action =>
     api
       .getGameByAccessCode(action.accessCode)
       .map(({ response: game }) => menuActions.setGame(game))

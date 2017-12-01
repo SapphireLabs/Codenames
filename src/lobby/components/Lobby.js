@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
+import Snackbar from 'material-ui/Snackbar';
 
 import socket, { socketEvents } from '../../common/socket';
 import LobbyGrid from '../../common/layout/LobbyGrid';
+import { actions as menuActions } from '../../menu';
 import * as lobbyActions from '../actions';
 import { teamSelector } from '../selectors';
 import Header from './Header';
@@ -17,9 +19,11 @@ import Options from './Options';
 export class Lobby extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
+    error: PropTypes.object,
     game: PropTypes.object.isRequired,
     lobbyActions: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
+    menuActions: PropTypes.object.isRequired,
     player: PropTypes.object.isRequired,
     teams: PropTypes.object.isRequired
   };
@@ -52,16 +56,20 @@ export class Lobby extends React.Component {
   };
 
   refreshGame = () => {
-    const { lobbyActions, match } = this.props;
+    const { menuActions, match } = this.props;
 
-    lobbyActions.getGame(match.params.accessCode);
+    menuActions.getGame(match.params.accessCode);
+  };
+
+  handleCloseSnackbar = () => {
+    this.props.menuActions.setError(null);
   };
 
   renderLobby = () => {
-    const { game, lobbyActions, match, player, teams } = this.props;
+    const { error, game, lobbyActions, match, player, teams } = this.props;
     const { accessCode } = match.params;
 
-    return (
+    return [
       <LobbyGrid
         blueComponent={
           <Team
@@ -102,8 +110,13 @@ export class Lobby extends React.Component {
             pickRole={lobbyActions.pickRole}
           />
         }
+      />,
+      <Snackbar
+        onRequestClose={this.handleCloseSnackbar}
+        open={!!error}
+        message={<span>{error && error.response.error}</span>}
       />
-    );
+    ];
   };
 
   render() {
@@ -112,6 +125,7 @@ export class Lobby extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  error: state.menu.error,
   game: state.menu.game,
   player: state.menu.player,
   teams: teamSelector(state)
@@ -119,7 +133,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   dispatch,
-  lobbyActions: bindActionCreators(lobbyActions, dispatch)
+  lobbyActions: bindActionCreators(lobbyActions, dispatch),
+  menuActions: bindActionCreators(menuActions, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Lobby);
