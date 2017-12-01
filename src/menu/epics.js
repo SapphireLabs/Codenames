@@ -102,7 +102,6 @@ export const createPlayerEpic = (action$, store, { api }) =>
   action$
     .ofType(actionTypes.CREATE_GAME_AND_PLAYER, actionTypes.JOIN_GAME)
     .zip(action$.ofType(actionTypes.SET_GAME))
-    .take(1)
     .mergeMap(([a1, a2]) =>
       api
         .createPlayer(
