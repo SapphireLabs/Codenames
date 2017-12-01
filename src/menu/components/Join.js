@@ -22,7 +22,6 @@ const styles = {
 
 export class Join extends React.Component {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     menuActions: PropTypes.object.isRequired,
     pristine: PropTypes.bool.isRequired,
@@ -34,7 +33,6 @@ export class Join extends React.Component {
     // If it does, create a new player using that gameId
     // Else, display snackbar message showing game not found
     this.props.menuActions.joinGame(formData.accessCode, formData.name);
-    // socket.emit(socketEvents.JOIN_GAME, res.accessCode);
   };
 
   renderField = ({ input, label, meta: { touched, error } }) => {
