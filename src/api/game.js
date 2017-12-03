@@ -36,17 +36,9 @@ export const createGame = accessCode =>
     body: { accessCode }
   });
 
-/**
- * POST new player
- *
- * @param  {number} gameId
- * @param  {string} name
- * @param  {boolean} host
- * @return {Observable<AjaxResponse>}
- */
-export const createPlayer = (gameId, name, host) =>
+export const updateGame = game =>
   ajax({
-    url: '/api/players',
-    method: 'POST',
-    body: { gameId, name, host }
+    url: `/api/games/${game.id}`,
+    method: 'PATCH',
+    body: game
   });

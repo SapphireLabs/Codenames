@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { reducer as FormReducer } from 'redux-form';
+import { reducer as formReducer } from 'redux-form';
 
 import { reducer as menuReducer } from './menu';
 import Lobby from './lobby';
@@ -9,5 +9,5 @@ export default combineReducers({
   menu: menuReducer,
   lobby: Lobby.reducer,
   game: Game.reducer,
-  form: FormReducer
+  form: formReducer
 });

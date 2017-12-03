@@ -29,15 +29,6 @@ export class Create extends React.Component {
   };
 
   onSubmit = formData => {
-    // Create new access code and insert new game in db
-    // Insert new player associated with that game
-    // Redirect to lobby for that access code
-    // this.props.menuActions.createGameAndPlayer(formData).then(res => {
-    //   localStorage.setItem('playerId', res.player.id);
-    //   localStorage.setItem('gameId', res.player.gameId);
-    //   localStorage.setItem('accessCode', res.accessCode);
-    //   this.props.dispatch(push(`/${res.accessCode}/lobby`));
-    // });
     this.props.menuActions.createGameAndPlayer(formData.name);
   };
 

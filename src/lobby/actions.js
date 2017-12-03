@@ -3,26 +3,38 @@ import axios from 'axios';
 import actionTypes from './actionTypes';
 import { isGameReady } from '../utils/game';
 
-// get player list using gameId
-export const getPlayerList = gameId =>
-  axios.get(`/api/players/game/${gameId}`).then(res => ({
-    type: actionTypes.GET_PLAYER_LIST,
-    playerList: res.data
-  }));
+/**
+ * Action to trigger get player list epic
+ *
+ * @param  {number} gameId
+ * @return {Object} action
+ */
+export const getPlayerList = gameId => ({
+  type: actionTypes.GET_PLAYER_LIST,
+  gameId
+});
 
-// get game using accessCode
-export const getGame = accessCode =>
-  axios.get(`/api/games/${accessCode}`).then(res => ({
-    type: actionTypes.UPDATE_GAME,
-    game: res.data
-  }));
+/**
+ * Action to trigger update player epic
+ *
+ * @param  {Object} player
+ * @return {Object} action
+ */
+export const updatePlayer = player => ({
+  type: actionTypes.UPDATE_PLAYER,
+  player
+});
 
-// update player properties
-export const updatePlayer = player =>
-  axios.put(`/api/players/${player.id}`, player).then(res => ({
-    type: actionTypes.UPDATE_PLAYER,
-    player: res.data[0]
-  }));
+/**
+ * Action to set player list in state
+ *
+ * @param  {Array} playerList
+ * @return {Object} action
+ */
+export const setPlayerList = playerList => ({
+  type: actionTypes.SET_PLAYER_LIST,
+  playerList
+});
 
 // update game properties
 export const updateGame = game =>

@@ -1,42 +1,30 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import { MemoryRouter } from 'react-router';
-import { reducer as formReducer } from 'redux-form';
-import { createStore, combineReducers } from 'redux';
-import { Provider } from 'react-redux';
+import { shallow } from 'enzyme';
 
-import Create from './Create';
+import { Create } from './Create';
 
 const defaultProps = {
-  handleSubmit: jest.fn(),
+  // Mock redux-form handle submit with identity function
+  handleSubmit: fn => fn,
   menuActions: {},
   pristine: true,
-  submitting: false,
+  submitting: false
 };
 
-const setupProps = (options) => ({ ...defaultProps, ...options });
+const setupProps = options => ({ ...defaultProps, ...options });
 
 describe('Create Menu Component', () => {
-  let store;
-  let onSave;
-
-  beforeEach(() => {
-    store = createStore(combineReducers({ form: formReducer }));
-    onSave = jest.fn().mockReturnValue(Promise.resolve());
+  it('should render without crashing', () => {
+    shallow(<Create {...setupProps()} />);
   });
 
-  it('should render without crashing', () => {
-    const props = {
-      ...defaultProps,
-      onSave,
-    };
+  it('should dispatch create game and player using name in formData on form submission', () => {
+    const props = { menuActions: { createGameAndPlayer: jest.fn() } };
+    const wrapper = shallow(<Create {...setupProps(props)} />);
 
-    mount(
-      <Provider store={store}>
-        <MemoryRouter>
-          <Create {...props} />
-        </MemoryRouter>
-      </Provider>
-    );
+    wrapper.find('form').simulate('submit', { name: 'test' });
+
+    expect(props.menuActions.createGameAndPlayer.mock.calls.length).toBe(1);
+    expect(props.menuActions.createGameAndPlayer.mock.calls[0][0]).toBe('test');
   });
 });

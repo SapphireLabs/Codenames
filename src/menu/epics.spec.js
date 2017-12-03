@@ -58,7 +58,7 @@ describe('Menu Epics', () => {
           expect(socket.emit.mock.calls[1][0]).toBe(socketEvents.JOIN_GAME);
           expect(socket.emit.mock.calls[1][1]).toBe('code');
           expect(actions.length).toBe(2);
-          expect(actions[0].type).toBe(actionTypes.FIND_GAME);
+          expect(actions[0].type).toBe(actionTypes.GET_GAME);
           expect(actions[0].accessCode).toBe('code');
           expect(actions[1].type).toBe('@@router/CALL_HISTORY_METHOD');
           expect(actions[1].payload.method).toBe('push');
@@ -69,14 +69,14 @@ describe('Menu Epics', () => {
 
   describe('Find game epic', () => {
     it('should dispatch set game action on success', () => {
-      const action$ = ActionsObservable.of(menuActions.findGame('code'));
+      const action$ = ActionsObservable.of(menuActions.getGame('code'));
       const response = { response: { id: 1, accessCode: 'code' } };
       const api = {
         getGameByAccessCode: accessCode => Observable.of(response)
       };
 
       menuEpics
-        .findGameEpic(action$, null, { api })
+        .getGameEpic(action$, null, { api })
         .toArray()
         .subscribe(actions => {
           expect(actions.length).toBe(1);
@@ -86,14 +86,14 @@ describe('Menu Epics', () => {
     });
 
     it('should dispatch set error action on failure', () => {
-      const action$ = ActionsObservable.of(menuActions.findGame('code'));
+      const action$ = ActionsObservable.of(menuActions.getGame('code'));
       const response = { message: 'test error' };
       const api = {
         getGameByAccessCode: accessCode => Observable.throw(response)
       };
 
       menuEpics
-        .findGameEpic(action$, null, { api })
+        .getGameEpic(action$, null, { api })
         .toArray()
         .subscribe(actions => {
           expect(actions.length).toBe(1);

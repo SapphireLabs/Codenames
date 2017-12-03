@@ -30,8 +30,8 @@ export const joinGame = (accessCode, name) => ({
  * @param  {string} accessCode
  * @return {Object} action
  */
-export const findGame = accessCode => ({
-  type: actionTypes.FIND_GAME,
+export const getGame = accessCode => ({
+  type: actionTypes.GET_GAME,
   accessCode
 });
 
