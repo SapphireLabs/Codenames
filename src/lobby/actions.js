@@ -14,7 +14,7 @@ export const getPlayerList = gameId =>
 export const getGame = accessCode =>
   axios.get(`/api/games/${accessCode}`).then(res => ({
     type: actionTypes.UPDATE_GAME,
-    game: res.data[0]
+    game: res.data
   }));
 
 // update player properties

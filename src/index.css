@@ -1,14 +1,22 @@
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
   font-family: raleway, Roboto, sans-serif;
 }
 
-#root, [data-reactroot], .main {
+#root,
+[data-reactroot],
+.main {
   height: 100%;
 }
 
 a:-webkit-any-link {
   text-decoration: none;
+}
+
+h1,
+h2 {
+  text-align: center;
 }
