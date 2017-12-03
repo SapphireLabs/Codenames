@@ -31,7 +31,15 @@ exports.up = function(knex, Promise) {
       table.integer('wordId').references('id').inTable('words');
       table.integer('playerId').references('id').inTable('players');
       table.timestamps();
-    })
+    }),
+    knex.schema.createTable('messages', function(table) {
+      table.increments('id').primary();
+      table.integer('gameId').references('id').inTable('games');
+      table.integer('playerId').references('id').inTable('players');
+      table.string('message');
+      table.boolean('isSpymaster').defaultTo(false);
+      table.timestamps();
+    }),
   ])
 };
 
@@ -39,6 +47,7 @@ exports.down = function(knex, Promise) {
   return Promise.all([
     knex.schema.dropTableIfExists('votes'),
     knex.schema.dropTableIfExists('words'),
+    knex.schema.dropTableIfExists('messages'),
     knex.schema.dropTableIfExists('players'),
     knex.schema.dropTableIfExists('games')
   ]);
