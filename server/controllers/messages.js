@@ -11,9 +11,8 @@ router.get('/game/:gameId', (req, res, next) => {
   utils.queryHandler(Message.getByGameId, gameId, req, res, next);
 });
 
-/**
- * POST new game
- */
+
+// POST new message
 router.post('/game/:gameId', async (req, res, next) => {
   const gameId = req.params.gameId;
 
