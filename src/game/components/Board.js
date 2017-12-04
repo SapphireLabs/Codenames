@@ -12,9 +12,9 @@ const styles = {
     justifyContent: 'space-around'
   },
   gridList: {
-    width: '80%',
-    height: '80%',
-    maxWidth: '500px',
+    width: '90%',
+    height: '90%',
+    maxWidth: '1000px',
     maxHeight: '500px'
   }
 };
