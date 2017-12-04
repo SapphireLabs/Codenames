@@ -71,6 +71,7 @@ export class Lobby extends React.Component {
 
     return [
       <LobbyGrid
+        key="main"
         blueComponent={
           <Team
             color="Blue"
@@ -112,6 +113,7 @@ export class Lobby extends React.Component {
         }
       />,
       <Snackbar
+        key="snackbar"
         onRequestClose={this.handleCloseSnackbar}
         open={!!error}
         message={<span>{error && error.response.error}</span>}

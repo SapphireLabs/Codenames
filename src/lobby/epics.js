@@ -16,7 +16,7 @@ export const getPlayerListEpic = (action$, store, { api }) =>
   action$.ofType(actionTypes.GET_PLAYER_LIST).switchMap(action =>
     api
       .getPlayerList(action.gameId)
-      .map(({ response: players }) => lobbyActions.setPlayerList(game))
+      .map(({ response: players }) => lobbyActions.setPlayerList(players))
       .catch(err => Observable.of(menuActions.setError(err)))
   );
 

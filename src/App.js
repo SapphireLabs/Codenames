@@ -13,7 +13,7 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import rootEpic from './rootEpic';
 import rootReducer from './rootReducer';
 import { components as menuComponents } from './menu';
-import Lobby from './lobby';
+import { components as lobbyComponents } from './lobby';
 import Game from './game';
 
 // Create browser history
@@ -48,7 +48,7 @@ const App = () => (
           <Switch>
             <Route
               path="/:accessCode/lobby"
-              component={Lobby.components.Lobby}
+              component={lobbyComponents.Lobby}
             />
             <Route path="/:accessCode/game" component={Game.components.Game} />
             <Route path="/" component={menuComponents.Menu} />

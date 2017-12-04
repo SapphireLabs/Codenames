@@ -1,4 +1,4 @@
-import Lobby from '../lobby';
+import { actionTypes as lobbyActionTypes } from '../lobby';
 import actionTypes from './actionTypes';
 
 export default function(state = {}, action) {
@@ -9,9 +9,9 @@ export default function(state = {}, action) {
       return { ...state, game: action.game };
     case actionTypes.SET_PLAYER:
       return { ...state, player: action.player };
-    case Lobby.actionTypes.UPDATE_GAME:
+    case lobbyActionTypes.UPDATE_GAME:
       return { ...state, game: action.game };
-    case Lobby.actionTypes.UPDATE_PLAYER:
+    case lobbyActionTypes.UPDATE_PLAYER:
       return { ...state, player: action.player };
     default:
       return state;
