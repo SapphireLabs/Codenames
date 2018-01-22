@@ -13,9 +13,6 @@ const styles = () => ({
   },
   content: {
     flex: '1 0 60%'
-  },
-  board: {
-    flex: '1 0 80%'
   }
 });
 
@@ -33,11 +30,11 @@ const GameGrid = props => (
     </Grid>
     <Grid item className={props.classes.content}>
       <Grid container justify="center" className={props.classes.root}>
-        <Grid item xs={8} className={props.classes.board}>
+        <Grid item xs={9}>
           BOARD
           {props.boardComponent}
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           CHAT
           {props.chatComponent}
         </Grid>
